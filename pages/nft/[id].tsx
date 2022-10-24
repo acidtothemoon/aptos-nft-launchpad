@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
 import { GetServerSideProps } from 'next'
 import { sanityClient, urlFor } from '../../sanity';
+import { Cursor, useTypewriter } from "react-simple-typewriter"
 import { Collection } from '../../typings';
 import Link from 'next/link';
+import { AptosClient, TokenClient } from "aptos"
+
 
 type Props = {
     collection: Collection
@@ -12,6 +15,41 @@ type Props = {
 const NFTDropPage = (collection: Props) => {
     const [address, setAddress] = useState<String | null>(null)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
+    const [mintedAmount, setMintedAmount] = useState<number>(0)
+    const [totalSupply, setTotalSupply] = useState<number>(0)
+    const [amountLoading, setAmountLoading] = useState<boolean>(true)
+    const [minted, setMinted] = useState<boolean>(true)
+
+
+    const [text, count] = useTypewriter({
+        words: [
+            `${collection.collection.title}`,
+        ],
+        // loop: true,
+        delaySpeed: 2000,
+    })
+
+    useEffect(() => {
+        connectWallet()
+    }, [])
+
+    useEffect(() => {
+        const fetchNFTDropData = async () => {
+            setAmountLoading(true)
+            const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
+            const tokenClient = new TokenClient(client);
+            const creator = ""
+            const collectionName = ""
+            const data = await tokenClient.getCollectionData(creator, collectionName)
+            const { description, maximum, name, supply, uri } = data
+
+            setMintedAmount(supply)
+            setTotalSupply(maximum)
+            setAmountLoading(false)
+        }
+
+        fetchNFTDropData()
+    }, [])
     // Auth
     const connectWallet = async () => {
         if ("martian" in window) {
@@ -90,19 +128,41 @@ const NFTDropPage = (collection: Props) => {
 
                 {/* Content */}
                 <div className='mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0'>
-                    <img className='w-80 object-cover pb-10 lg:h-40'
+                    <img className='w-80 object-cover pb-8 lg:h-100'
                         src={urlFor(collection.collection.mainImage).url()}
                     />
                     <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold'>
-                        {collection.collection.title}
+                        {text}
                     </h1>
-                    <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p>
+                    {/* <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p> */}
+                    <h2 className="animate-pulse text-sm uppercase text-gray-500 pb-2 tracking-[5px] md:tracking-[5px] py-5">
+                        {amountLoading ? (
+                            <div>
+                                <h1>&nbsp;Loading supply count...</h1>
+                                <img
+                                    className='h-80 w-80 object-contain'
+                                    src='https://cdn.hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif'
+                                />
+                            </div>
+
+                        ) : (
+                            <div>&nbsp; {mintedAmount}/{totalSupply}</div>
+                        )}
+                    </h2>
+
+
                 </div>
 
                 {/* Mint Button */}
-                <button className='h-16 bg-blue-800 w-full text-white rounded-full mt-10 font-bold'>
+                {(!minted) && <button
+                    disabled={amountLoading || mintedAmount === totalSupply || !address}
+                    className='h-16 bg-blue-700 w-full text-white rounded-full mt-10 font-bold disabled:bg-gray-400'>
                     Mint For 2.5 APT
-                </button>
+                </button>}
+                {(address) && (minted) && <div className='text-black font-bold text-xl text-center'>
+                    You've minted one!
+                </div>}
+
             </div>
 
         </div>
