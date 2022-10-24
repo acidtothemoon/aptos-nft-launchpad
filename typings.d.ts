@@ -27,6 +27,8 @@ export interface Collection {
     _id: string
     title: string
     description: string
+    price: number
+    maxMintPerWallet: number
     nftCollectionName: string
     address: string
     slug: {

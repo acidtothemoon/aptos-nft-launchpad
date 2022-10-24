@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
 import { GetServerSideProps } from 'next'
-import { sanityClient, urlFor } from '../../sanity';
+import { sanityClient, urlFor } from '../../sanity'
 import { Cursor, useTypewriter } from "react-simple-typewriter"
-import { Collection } from '../../typings';
-import Link from 'next/link';
+import { Collection } from '../../typings'
+import Link from 'next/link'
 import { AptosClient, TokenClient } from "aptos"
+import toast, { Toaster } from 'react-hot-toast'
 
 
 type Props = {
@@ -18,8 +19,11 @@ const NFTDropPage = (collection: Props) => {
     const [mintedAmount, setMintedAmount] = useState<number>(0)
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [amountLoading, setAmountLoading] = useState<boolean>(true)
-    const [minted, setMinted] = useState<boolean>(true)
-
+    const [minted, setMinted] = useState<boolean>(false)
+    const [minting, setMinting] = useState<boolean>(false)
+    const [amountToMint, setAmountToMint] = useState<number>(1)
+    const [maxMintPerWallet, setMaxMintPerWallet] = useState<number>(1)
+    const [thisUserMinted, setThisUserMinted] = useState<number>(0)
 
     const [text, count] = useTypewriter({
         words: [
@@ -31,25 +35,27 @@ const NFTDropPage = (collection: Props) => {
 
     useEffect(() => {
         connectWallet()
-    }, [])
+        setMaxMintPerWallet(collection.collection.maxMintPerWallet)
+    }, [address])
 
-    useEffect(() => {
-        const fetchNFTDropData = async () => {
-            setAmountLoading(true)
-            const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
-            const tokenClient = new TokenClient(client);
-            const creator = ""
-            const collectionName = ""
-            const data = await tokenClient.getCollectionData(creator, collectionName)
-            const { description, maximum, name, supply, uri } = data
+    // useEffect(() => {
+    //     const fetchNFTDropData = async () => {
+    //         setAmountLoading(true)
+    //         const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
+    //         const tokenClient = new TokenClient(client);
+    //         const creator = ""
+    //         const collectionName = ""
+    //         const data = await tokenClient.getCollectionData(creator, collectionName)
+    //         const { description, maximum, name, supply, uri } = data
 
-            setMintedAmount(supply)
-            setTotalSupply(maximum)
-            setAmountLoading(false)
-        }
+    //         setMintedAmount(supply)
+    //         setTotalSupply(maximum)
+    //         setAmountLoading(false)
+    //     }
 
-        fetchNFTDropData()
-    }, [])
+    //     fetchNFTDropData()
+    // }, [])
+
     // Auth
     const connectWallet = async () => {
         if ("martian" in window) {
@@ -63,7 +69,6 @@ const NFTDropPage = (collection: Props) => {
                 setIsWalletConnected(true)
             }
             console.log("wallet connected");
-            // setConnenctButtonText('Connected');
             return;
         }
         window.open("https://www.martianwallet.xyz/", "_blank");
@@ -74,8 +79,40 @@ const NFTDropPage = (collection: Props) => {
         setAddress(null)
     }
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setAmountToMint(e.target.valueAsNumber)
+    };
+
+    const handleMint = async () => {
+        console.log(address);
+        // Auth
+        if (amountToMint + thisUserMinted > maxMintPerWallet) {
+            toast.error(`You can only mint ${maxMintPerWallet - thisUserMinted} more!`)
+            setAmountToMint(maxMintPerWallet - thisUserMinted)
+        }
+
+        // Generate a transaction
+        const payload = {
+            // type: "entry_function_payload",
+            function: "0x5ac985f1fe40c5121eb33699952ce8a79b1d1cb7438709dbd1da8e840a04fbee::candy_machine_v2::mint_tokens",
+            type_arguments: [],
+            arguments: [
+                // cmAddress,
+                // collectionName,
+                `${collection.collection.address}`,
+                `${collection.collection.nftCollectionName}`,
+                { amountToMint },
+            ]
+        };
+        const transaction = await window.martian.generateTransaction(address, payload);
+        const txnHash = await window.martian.signAndSubmitTransaction(transaction);
+        console.log(txnHash);
+    }
+
+
     return (
-        <div className='flex h-screen flex-col lg:grid lg:grid-cols-10'>
+        <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 snap-y snap-mandatory overflow-y-scroll'>
+            <Toaster position='bottom-center' />
             {/* Left */}
             <div className='lg:col-span-4 bg-gradient-to-br from-blue-900 to-black pr-5 pl-5'>
                 {/* Header */}
@@ -108,7 +145,6 @@ const NFTDropPage = (collection: Props) => {
                 )}
                 {/* <hr className='my-1 border' /> */}
 
-
                 <div className='flex flex-col items-center justify-center py-10 lg:min-h-screen'>
                     <div className='bg-gradient-to-br from-blue-400 to-purple-600 p-1 md:p-2 rounded-xl'>
                         <img
@@ -125,7 +161,6 @@ const NFTDropPage = (collection: Props) => {
 
             {/* Right */}
             <div className='flex flex-1 flex-col p-12 lg:col-span-6'>
-
                 {/* Content */}
                 <div className='mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0'>
                     <img className='w-80 object-cover pb-8 lg:h-100'
@@ -137,32 +172,48 @@ const NFTDropPage = (collection: Props) => {
                     {/* <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p> */}
                     <h2 className="animate-pulse text-sm uppercase text-gray-500 pb-2 tracking-[5px] md:tracking-[5px] py-5">
                         {amountLoading ? (
-                            <div>
+                            <div className='justify-center items-center'>
                                 <h1>&nbsp;Loading supply count...</h1>
-                                <img
-                                    className='h-80 w-80 object-contain'
-                                    src='https://cdn.hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif'
-                                />
+                                <div className='flex justify-center'>
+                                    <img
+                                        className='h-40 w-40 object-contain'
+                                        src='https://cdn.hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif'
+                                    />
+                                </div>
                             </div>
 
                         ) : (
                             <div>&nbsp; {mintedAmount}/{totalSupply}</div>
                         )}
                     </h2>
-
-
+                    {/* Mint Button */}
+                    {!(maxMintPerWallet == 1) ? (
+                        <div>
+                            <input
+                                type="number"
+                                onChange={handleChange}
+                                value={amountToMint}
+                                placeholder='Amount to mint'
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-50 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
+                            />
+                            <button onClick={handleMint}
+                                disabled={amountLoading || mintedAmount === totalSupply || !address}
+                                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg px-4 py-2 font-semibold disabled:bg-gray-400"
+                            >Mint 1 for {collection.collection.price} APT</button>
+                        </div>
+                    ) : (
+                        <div className='py-0 w-full'>
+                            {minted ? (<div className='text-black font-bold text-xl text-center'>
+                                You have minted one!
+                            </div>) : (<button
+                                disabled={amountLoading || mintedAmount === totalSupply || !address}
+                                onClick={handleMint}
+                                className='h-16 bg-blue-700 w-full text-white rounded-full mt-10 font-bold disabled:bg-gray-400'>
+                                Mint For {collection.collection.price} APT
+                            </button>)}
+                        </div>
+                    )}
                 </div>
-
-                {/* Mint Button */}
-                {(!minted) && <button
-                    disabled={amountLoading || mintedAmount === totalSupply || !address}
-                    className='h-16 bg-blue-700 w-full text-white rounded-full mt-10 font-bold disabled:bg-gray-400'>
-                    Mint For 2.5 APT
-                </button>}
-                {(address) && (minted) && <div className='text-black font-bold text-xl text-center'>
-                    You've minted one!
-                </div>}
-
             </div>
 
         </div>
@@ -173,27 +224,29 @@ export default NFTDropPage
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const query = `*[_type=="collection" && slug.current==$id][0]{
-        _id,
-        title,
-        address,
-        description,
-        nftCollectionName,
-        mainImage{
-          asset
-        },
-        previewImage{
-          asset
-        },
-        slug{
-          current
-        },
+                _id,
+                title,
+                address,
+                price,
+                maxMintPerWallet,
+                description,
+                nftCollectionName,
+                mainImage{
+                asset
+            },
+            previewImage{
+                asset
+            },
+            slug{
+                current
+            },
         creator->{
-          _id,
-          name,
-          address,
-          slug  {
-          current
-          },
+                _id,
+                name,
+                address,
+                slug  {
+                current
+            },
         }
       }`
     const collection = await sanityClient.fetch(query, {

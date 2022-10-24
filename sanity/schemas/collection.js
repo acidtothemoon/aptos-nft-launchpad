@@ -25,6 +25,11 @@ export default {
             type: 'string',
         },
         {
+            name: 'price',
+            title: 'Price',
+            type: 'number',
+        },
+        {
             name: 'slug',
             title: 'Slug',
             type: 'slug',
@@ -32,6 +37,11 @@ export default {
                 source: 'name',
                 maxLength: 96
             },
+        },
+        {
+            name: 'maxMintPerWallet',
+            title: 'Max Mint Per Wallet',
+            type: 'number',
         },
         {
             name: 'creator',
