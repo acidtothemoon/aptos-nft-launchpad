@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react'
 
-type Props = { mintStartTime: Date }
+type Props = { mintStartTime: string }
 
 const Countdown = ({ mintStartTime }: Props) => {
 
