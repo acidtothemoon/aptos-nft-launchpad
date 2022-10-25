@@ -35,9 +35,11 @@ const Home = ({ collections }: Props) => {
         </main>
       </div>
       <div className='flex justify-center py-5 sm:py-20'>
-        <h3 className=' text-white text-end'>
-          Powered by Acid Labs
-        </h3>
+        <a target="_blank" href="https://twitter.com/acidmonkeys">
+          <h3 className=' text-white text-end'>
+            Powered by Acid Labs
+          </h3>
+        </a>
       </div>
       {/* <div className='flex justify-center absolute inset-x-0 bottom-0'>
         <h3 className=' py-10 text-white font-bold'>Powered By Acid Labs</h3>
