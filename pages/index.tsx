@@ -1,8 +1,10 @@
-import type { GetServerSideProps } from 'next'
+import type { GetServerSideProps, GetStaticProps } from 'next'
 import Head from 'next/head'
 import CollectionCard from '../components/CollectionCard'
 import { sanityClient } from '../sanity'
-import { Collection } from '../typings'
+import { fetchCollections } from '../utils/fetchCollections'
+import { Collection } from '../typings';
+
 
 interface Props {
   collections: Collection[]
@@ -50,42 +52,54 @@ const Home = ({ collections }: Props) => {
 
 export default Home
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  console.log("start querying")
-  const query = `*[_type=="collection"]{
-    _id,
-    title,
-    address,
-    price,
-    description,
-    mintStartTime,
-    mintEndTime,
-    maxMintPerWallet,
-    nftCollectionName,
-    mainImage{
-      asset
-    },
-    previewImage{
-      asset
-    },
-    slug{
-      current
-    },
-    creator->{
-      _id,
-      name,
-      address,
-      slug  {
-      current
-      },
-    }
-  }`
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   console.log("start querying")
+//   const query = `*[_type=="collection"]{
+//     _id,
+//     title,
+//     address,
+//     price,
+//     description,
+//     mintStartTime,
+//     socials,
+//     mintEndTime,
+//     maxMintPerWallet,
+//     nftCollectionName,
+//     mainImage{
+//       asset
+//     },
+//     previewImage{
+//       asset
+//     },
+//     slug{
+//       current
+//     },
+//     creator->{
+//       _id,
+//       name,
+//       address,
+//       slug  {
+//       current
+//       },
+//     }
+//   }`
 
-  const collections = await sanityClient.fetch(query)
-  console.log(collections)
+//   const collections = await sanityClient.fetch(query)
+//   console.log(collections)
+//   return {
+//     props: {
+//       collections,
+//     },
+//   }
+// }
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const collections: Collection[] = await fetchCollections()
+
   return {
     props: {
       collections,
     },
+    revalidate: 10,
   }
 }

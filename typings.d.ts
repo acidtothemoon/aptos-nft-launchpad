@@ -30,6 +30,7 @@ export interface Collection {
     price: number
     mintStartTime: string
     mintEndTime: string
+    socials: Social[]
     maxMintPerWallet: number
     nftCollectionName: string
     address: string
@@ -39,4 +40,17 @@ export interface Collection {
     creator: Creator
     mainImage: Image
     previewImage: Image
+}
+
+interface SanityBody {
+    _createdAt: string;
+    _id: string;
+    _rev: string;
+    _updatedAt: string;
+}
+
+export interface Social extends SanityBody {
+    _type: "social";
+    title: string;
+    url: string;
 }

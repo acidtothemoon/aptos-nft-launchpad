@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, GetStaticProps } from 'next'
 import { sanityClient, urlFor } from '../../sanity'
-import { Cursor, useTypewriter } from "react-simple-typewriter"
-import { Collection } from '../../typings'
+import { useTypewriter } from "react-simple-typewriter"
+import { Collection, Social } from '../../typings'
 import Link from 'next/link'
 import { AptosClient, TokenClient } from "aptos"
 import toast, { Toaster } from 'react-hot-toast'
 import Head from 'next/head'
 import Countdown from '../../components/Countdown/index';
+import { SocialIcon } from "react-social-icons"
+import { fetchSocials } from '../../utils/fetchSocials'
+import { getStaticProps } from '../index';
+
 
 
 type Props = {
     collection: Collection
+    // socials: Social[]
 }
 
-const NFTDropPage = ({ collection }: Props) => {
+const NFTDropPage = ({ collection, }: Props) => {
     const [address, setAddress] = useState<String | null>(null)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
     const [mintedAmount, setMintedAmount] = useState<number>(0)
@@ -177,6 +182,32 @@ const NFTDropPage = ({ collection }: Props) => {
                             className='w-44 rounded-xl object-cover lg:h-96 lg:w-72'
                             src={urlFor(collection.previewImage).url()} />
                     </div>
+                    <motion.div
+                        initial={{
+                            x: -500,
+                            opacity: 0,
+                            scale: 0.5,
+                        }}
+                        animate={{
+                            x: 0,
+                            opacity: 1,
+                            scale: 1,
+                        }}
+                        transition={{
+                            duration: 1.5,
+                        }}
+                        className="flex flex-row items-center"
+                    >
+                        {/** Social icon */}
+                        {collection.socials?.map((social) => (
+                            <SocialIcon
+                                key={social.title}
+                                url={social.url}
+                                fgColor="gray"
+                                bgColor="transparent"
+                            />
+                        ))}
+                    </motion.div>
                     <div className='text-center p-5 space-y-2'>
                         <h1 className=' text-4xl font-bold text-white'>{collection.nftCollectionName}</h1>
                         <h2 className='text-xl text-gray-300'>{collection.description}</h2>
@@ -269,6 +300,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 price,
                 mintStartTime,
                 mintEndTime,
+                socials,
                 maxMintPerWallet,
                 description,
                 nftCollectionName,
@@ -281,7 +313,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             slug{
                 current
             },
-        creator->{
+            creator->{
                 _id,
                 name,
                 address,
@@ -290,9 +322,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             },
         }
       }`
+    // const socials: Social[] = await fetchSocials();
+
     const collection = await sanityClient.fetch(query, {
         id: params?.id
     })
+
 
     if (!collection) {
         return {
@@ -302,6 +337,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     return {
         props: {
             collection,
+            // socials
         }
     }
 }

@@ -5,6 +5,7 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 import collection from './collection'
 import creator from './creator'
+import social from './social'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -15,5 +16,6 @@ export default createSchema({
   types: schemaTypes.concat([
     collection,
     creator,
+    social
   ]),
 })
