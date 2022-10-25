@@ -156,7 +156,7 @@ const NFTDropPage = (collection: Props) => {
                             src={urlFor(collection.collection.previewImage).url()} />
                     </div>
                     <div className='text-center p-5 space-y-2'>
-                        <h1 className='text-4xl font-bold text-white'>{collection.collection.nftCollectionName}</h1>
+                        <h1 className=' text-4xl font-bold text-white'>{collection.collection.nftCollectionName}</h1>
                         <h2 className='text-xl text-gray-300'>{collection.collection.description}</h2>
                     </div>
                 </div>
@@ -169,7 +169,7 @@ const NFTDropPage = (collection: Props) => {
                     <img className='w-80 object-cover lg:h-100 rounded-xl'
                         src={urlFor(collection.collection.mainImage).url()}
                     />
-                    <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold py-2'>
+                    <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold py-5'>
                         {text}
                     </h1>
                     {/* <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p> */}
@@ -216,9 +216,9 @@ const NFTDropPage = (collection: Props) => {
                             </button>)}
                         </div>
                     )}
-                    <h3 className='text-white font-semibold py-5'>Powered By {collection.collection.creator.name}</h3>
 
                 </div>
+
             </div>
 
         </div>
