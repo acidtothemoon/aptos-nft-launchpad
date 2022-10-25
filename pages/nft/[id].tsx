@@ -111,7 +111,7 @@ const NFTDropPage = (collection: Props) => {
 
 
     return (
-        <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 snap-y snap-mandatory overflow-y-scroll'>
+        <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 overflow-y-scroll'>
             <Toaster position='bottom-center' />
             {/* Left */}
             <div className='lg:col-span-4 bg-black pr-5 pl-5'>
