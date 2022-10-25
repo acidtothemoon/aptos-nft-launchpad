@@ -16,7 +16,7 @@ const Home = ({ collections }: Props) => {
         <title>Aptos NFT Launchpad</title>
       </Head>
 
-      <h1 className='px-10 md:px-20 mb-10 text-3xl md:text-4xl font-extralight text-transparent bg-clip-text bg-gradient-to-r from-[#236938] to-[#05e061] '>
+      <h1 className='px-10 md:px-20 mb-10 text-3xl md:text-4xl font-extralight text-transparent bg-clip-text bg-gradient-to-r from-[#0e8530] to-[#05e061] '>
         <span className='font-extrabold underline decoration-green-600'>
           Aptos
         </span>
@@ -25,13 +25,15 @@ const Home = ({ collections }: Props) => {
       <div className=' px-10'>
         <main className='bg-gradient-to-r from-green-900 to-green-900 p-10 shadow-xl shadow-[#0ca64c]/80 rounded-lg'>
           <div className='grid space-x-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 space-y-15'>
-            {collections?.map((collection, i) => (
-              <div key={i} className='py-4'>
-                <CollectionCard collection={collection} />
-              </div>
-            ))}
+            {collections?.sort((a, b) => (a.mintStartTime ? (a.mintStartTime) : "2050-02-12T09:15:00Z").localeCompare((b.mintStartTime ? (b.mintStartTime) : ("2050-02-12T09:15:00Z"))))
+              .map((collection, i) => (
+                <div key={i} className='py-4'>
+                  <CollectionCard collection={collection} />
+                </div>
+              ))}
           </div>
         </main>
+        <h3 className='flex absolute inset-x-0 bottom-0 py-10 justify-center text-white font-bold'>Powered By Acid Labs</h3>
       </div>
     </div>
   )
@@ -47,6 +49,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     address,
     price,
     description,
+    mintStartTime,
+    mintEndTime,
     maxMintPerWallet,
     nftCollectionName,
     mainImage{

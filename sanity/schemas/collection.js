@@ -10,6 +10,16 @@ export default {
             type: 'string',
         },
         {
+            name: 'mintStartTime',
+            title: 'mint start time',
+            type: 'datetime',
+        },
+        {
+            name: 'mintEndTime',
+            title: 'mint end time',
+            type: 'datetime',
+        },
+        {
             name: 'description',
             title: 'Description',
             type: 'string',

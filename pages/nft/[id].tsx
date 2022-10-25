@@ -7,6 +7,7 @@ import { Collection } from '../../typings'
 import Link from 'next/link'
 import { AptosClient, TokenClient } from "aptos"
 import toast, { Toaster } from 'react-hot-toast'
+import Head from 'next/head'
 
 
 type Props = {
@@ -112,6 +113,9 @@ const NFTDropPage = (collection: Props) => {
 
     return (
         <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 overflow-y-scroll'>
+            <Head>
+                <title>{collection.collection.title} Mint Page</title>
+            </Head>
             <Toaster position='bottom-center' />
             {/* Left */}
             <div className='lg:col-span-4 bg-black pr-5 pl-5'>
@@ -120,7 +124,7 @@ const NFTDropPage = (collection: Props) => {
                     <Link href={'/'}>
                         <h1 className='w-52 cursor-pointer text-xl font-extralight sm:w-80 text-transparent bg-clip-text bg-gradient-to-r from-[#236938] to-[#05e061] md:text-5xl' >
                             <span className='font-extrabold underline decoration-blue-600'>
-                                Only2
+                                Aptos
                             </span>
                             {' '} NFT Launchpad
                         </h1>
@@ -145,12 +149,11 @@ const NFTDropPage = (collection: Props) => {
                 )}
                 {/* <hr className='my-1 border' /> */}
 
-                <div className='flex flex-col items-center justify-center py-10 lg:min-h-screen'>
+                <div className='flex flex-col items-center justify-center py-10 lg:min-h-screen lg:pb-80'>
                     <div className='bg-gradient-to-br from-blue-400 to-purple-600 p-1 md:p-2 rounded-xl'>
                         <img
                             className='w-44 rounded-xl object-cover lg:h-96 lg:w-72'
                             src={urlFor(collection.collection.previewImage).url()} />
-
                     </div>
                     <div className='text-center p-5 space-y-2'>
                         <h1 className='text-4xl font-bold text-white'>{collection.collection.nftCollectionName}</h1>
@@ -163,10 +166,10 @@ const NFTDropPage = (collection: Props) => {
             <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-gradient-to-r from-green-700 to-green-900'>
                 {/* Content */}
                 <div className='mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0'>
-                    <img className='w-80 object-cover pb-8 lg:h-100'
+                    <img className='w-80 object-cover lg:h-100 rounded-xl'
                         src={urlFor(collection.collection.mainImage).url()}
                     />
-                    <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold'>
+                    <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold py-2'>
                         {text}
                     </h1>
                     {/* <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p> */}
@@ -213,6 +216,8 @@ const NFTDropPage = (collection: Props) => {
                             </button>)}
                         </div>
                     )}
+                    <h3 className='text-white font-semibold py-5'>Powered By {collection.collection.creator.name}</h3>
+
                 </div>
             </div>
 
@@ -228,6 +233,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 title,
                 address,
                 price,
+                mintStartTime,
+                mintEndTime,
                 maxMintPerWallet,
                 description,
                 nftCollectionName,
