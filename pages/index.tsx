@@ -1,43 +1,46 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import CollectionCard from '../components/CollectionCard'
-import { sanityClient, urlFor } from '../sanity'
+import { sanityClient } from '../sanity'
 import { Collection } from '../typings'
 
 interface Props {
   collections: Collection[]
 }
 
+
 const Home = ({ collections }: Props) => {
   return (
-    <div className='max-w-7xl mx-auto flex min-h-screen flex-col py-20 px-10 2xl:px-0'>
+    <div className='py-8 mx-auto flex min-h-screen flex-col md:py-20 md:px-10 2xl:px-0 bg-black'>
       <Head>
-        <title>Only2</title>
+        <title>Aptos NFT Launchpad</title>
       </Head>
 
-      <h1 className='mb-10 text-4xl font-extralight'>
-        <span className='font-extrabold text-[#090510] underline decoration-pink-600'>
-          Only2
+      <h1 className='px-10 md:px-20 mb-10 text-3xl md:text-4xl font-extralight text-transparent bg-clip-text bg-gradient-to-r from-[#236938] to-[#05e061] '>
+        <span className='font-extrabold underline decoration-green-600'>
+          Aptos
         </span>
         {' '} NFT Launchpad
       </h1>
-
-      <main className='bg-slate-100 p-10 shadow-xl shadow-blue-400/20'>
-        <div className='grid space-x-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-          {collections.map((collection) => (
-            <CollectionCard collection={collection} />
-          ))}
-        </div>
-      </main>
+      <div className=' px-10'>
+        <main className='bg-gradient-to-r from-green-900 to-green-900 p-10 shadow-xl shadow-[#0ca64c]/80 rounded-lg'>
+          <div className='grid space-x-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 space-y-15'>
+            {collections?.map((collection, i) => (
+              <div key={i}>
+                <CollectionCard collection={collection} />
+              </div>
+            ))}
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
 
 export default Home
 
-
 export const getServerSideProps: GetServerSideProps = async () => {
+  console.log("start querying")
   const query = `*[_type=="collection"]{
     _id,
     title,

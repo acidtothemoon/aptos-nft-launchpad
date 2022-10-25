@@ -114,12 +114,12 @@ const NFTDropPage = (collection: Props) => {
         <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 snap-y snap-mandatory overflow-y-scroll'>
             <Toaster position='bottom-center' />
             {/* Left */}
-            <div className='lg:col-span-4 bg-gradient-to-br from-blue-900 to-black pr-5 pl-5'>
+            <div className='lg:col-span-4 bg-black pr-5 pl-5'>
                 {/* Header */}
                 <header className='flex flex-1 items-center justify-between text-white pt-8 '>
                     <Link href={'/'}>
-                        <h1 className='w-52 cursor-pointer text-xl font-extralight sm:w-80'>
-                            <span className='font-extrabold text-[#edebf0] underline decoration-pink-600'>
+                        <h1 className='w-52 cursor-pointer text-xl font-extralight sm:w-80 text-transparent bg-clip-text bg-gradient-to-r from-[#236938] to-[#05e061] md:text-5xl' >
+                            <span className='font-extrabold underline decoration-blue-600'>
                                 Only2
                             </span>
                             {' '} NFT Launchpad
@@ -160,7 +160,7 @@ const NFTDropPage = (collection: Props) => {
             </div>
 
             {/* Right */}
-            <div className='flex flex-1 flex-col p-12 lg:col-span-6'>
+            <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-gradient-to-r from-green-700 to-green-900'>
                 {/* Content */}
                 <div className='mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0'>
                     <img className='w-80 object-cover pb-8 lg:h-100'
@@ -170,16 +170,16 @@ const NFTDropPage = (collection: Props) => {
                         {text}
                     </h1>
                     {/* <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p> */}
-                    <h2 className="animate-pulse text-sm uppercase text-gray-500 pb-2 tracking-[5px] md:tracking-[5px] py-5">
+                    <h2 className="animate-pulse text-sm uppercase text-white pb-2 tracking-[5px] md:tracking-[5px] py-5">
                         {amountLoading ? (
                             <div className='justify-center items-center'>
                                 <h1>&nbsp;Loading supply count...</h1>
-                                <div className='flex justify-center'>
+                                {/* <div className='flex justify-center'>
                                     <img
                                         className='h-40 w-40 object-contain'
                                         src='https://cdn.hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif'
                                     />
-                                </div>
+                                </div> */}
                             </div>
 
                         ) : (
