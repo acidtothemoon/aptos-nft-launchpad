@@ -19,7 +19,7 @@ const NFTDropPage = ({ collection }: Props) => {
     const [address, setAddress] = useState<String | null>(null)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
     const [mintedAmount, setMintedAmount] = useState<number>(0)
-    const [totalSupply, setTotalSupply] = useState<number>(0)
+    const [totalSupply, setTotalSupply] = useState<number>(5)
     const [amountLoading, setAmountLoading] = useState<boolean>(true)
     const [minted, setMinted] = useState<boolean>(false)
     const [minting, setMinting] = useState<boolean>(false)
@@ -93,11 +93,23 @@ const NFTDropPage = ({ collection }: Props) => {
     const handleMint = async () => {
         console.log(address);
         // Auth
+        if (!address) {
+            toast.error("Connect wallet first!")
+            return
+        }
         if (amountToMint + thisUserMinted > maxMintPerWallet) {
             toast.error(`You can only mint ${maxMintPerWallet - thisUserMinted} more!`)
             setAmountToMint(maxMintPerWallet - thisUserMinted)
+            return
         }
-
+        if (amountLoading) {
+            toast.error("Still loading...")
+            return
+        }
+        if (mintedAmount === totalSupply) {
+            toast.error("Minted out")
+            return
+        }
         // Generate a transaction
         const payload = {
             type: "entry_function_payload",
@@ -127,12 +139,12 @@ const NFTDropPage = ({ collection }: Props) => {
             </Head>
             <Toaster position='bottom-center' />
             {/* Left */}
-            <div className='lg:col-span-4 bg-black pr-5 pl-5'>
+            <div className='lg:col-span-4 bg-gradient-to-r from-[#051818] to-[#0e3839] pr-5 pl-5'>
                 {/* Header */}
                 <header className='flex flex-1 items-center justify-between text-white pt-8 '>
                     <Link href={'/'}>
-                        <h1 className='w-52 cursor-pointer text-xl font-extralight sm:w-80 text-transparent bg-clip-text bg-gradient-to-r from-[#236938] to-[#05e061] md:text-5xl' >
-                            <span className='font-extrabold underline decoration-blue-600'>
+                        <h1 className='w-52 cursor-pointer text-xl font-bold sm:w-80 text-transparent text-white md:text-5xl' >
+                            <span className='font-extrabold '>
                                 Aptos
                             </span>
                             {' '} NFT Launchpad
@@ -146,7 +158,7 @@ const NFTDropPage = ({ collection }: Props) => {
                         }}
                     >
                         <button onClick={() => (isWalletConnected ? disconnect() : connectWallet())}
-                            className='rounded-full bg-blue-400 px-4 py-2 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
+                            className='rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-4 py-2 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
                             {isWalletConnected ? "Disconnect" : "Connect"}
                         </button>
                     </motion.div>
@@ -172,7 +184,7 @@ const NFTDropPage = ({ collection }: Props) => {
             </div>
 
             {/* Right */}
-            <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-gradient-to-r from-green-700 to-green-900'>
+            <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-black'>
                 {/* Countdown */}
                 <div className='text-lg text-white flex justify-center text-center'>
                     Minting Starts At:
@@ -182,11 +194,11 @@ const NFTDropPage = ({ collection }: Props) => {
                     <Countdown mintStartTime={collection.mintStartTime} />
                 </div>
                 {/* Content */}
-                <div className='flex flex-2 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0'>
+                <div className='flex flex-2 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0 py-2'>
                     <img className='w-80 object-cover lg:h-100 rounded-xl'
                         src={urlFor(collection.mainImage).url()}
                     />
-                    <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold py-5'>
+                    <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold py-5 text-[#ecdcdc]'>
                         {text}
                     </h1>
                     {/* <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p> */}
@@ -217,8 +229,7 @@ const NFTDropPage = ({ collection }: Props) => {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-50 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
                             />
                             <button onClick={handleMint}
-                                disabled={amountLoading || mintedAmount === totalSupply || !address}
-                                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg px-4 py-2 font-semibold disabled:bg-gray-400"
+                                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg px-4 py-2 font-semibold "
                             >Mint 1 for {collection.price} APT</button>
                         </div>
                     ) : (
@@ -232,9 +243,8 @@ const NFTDropPage = ({ collection }: Props) => {
                                     borderRadius: "100%"
                                 }}>
                                 <button
-                                    disabled={amountLoading || mintedAmount === totalSupply || !address}
                                     onClick={handleMint}
-                                    className='h-16 bg-blue-700 w-full text-white rounded-full mt-10 font-bold disabled:bg-gray-400'>
+                                    className='h-16 bg-gradient-to-r from-cyan-500 to-blue-500 w-full text-white rounded-full mt-10 font-bold '>
                                     Mint For {collection.price} APT
                                 </button>
                             </motion.div>)}
