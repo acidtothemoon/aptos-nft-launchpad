@@ -28,8 +28,8 @@ export interface Collection {
     title: string
     description: string
     price: number
-    mintStartTime: datetime
-    mintEndTime: datetime
+    mintStartTime: Date
+    mintEndTime: Date
     maxMintPerWallet: number
     nftCollectionName: string
     address: string
