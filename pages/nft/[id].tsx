@@ -44,27 +44,27 @@ const NFTDropPage = ({ collection }: Props) => {
 
     }, [address])
 
-    // useEffect(() => {
-    //     const fetchNFTDropData = async () => {
-    //         setAmountLoading(true)
-    //         // const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
-    //         const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
-    //         const tokenClient = new TokenClient(client);
-    //         // const creator = `${collection.creator}`
-    //         const creator = "0xc931187f52e9aac219517880805f64eb4243dbe291fc150a9af5548714fbf202"
+    useEffect(() => {
+        const fetchNFTDropData = async () => {
+            setAmountLoading(true)
+            // const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
+            const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
+            const tokenClient = new TokenClient(client);
+            // const creator = `${collection.creator}`
+            const creator = "0xc931187f52e9aac219517880805f64eb4243dbe291fc150a9af5548714fbf202"
 
-    //         // const collectionName = `${collection.nftCollectionName}`
-    //         const collectionName = "Aptos Acid Apes 2"
-    //         const data = await tokenClient.getCollectionData(creator, collectionName)
-    //         const { description, maximum, name, supply, uri } = data
+            // const collectionName = `${collection.nftCollectionName}`
+            const collectionName = "Aptos Acid Apes 2"
+            const data = await tokenClient.getCollectionData(creator, collectionName)
+            const { description, maximum, name, supply, uri } = data
 
-    //         setMintedAmount(supply)
-    //         setTotalSupply(maximum)
-    //         setAmountLoading(false)
-    //     }
+            setMintedAmount(supply)
+            setTotalSupply(maximum)
+            setAmountLoading(false)
+        }
 
-    //     fetchNFTDropData()
-    // }, [])
+        fetchNFTDropData()
+    }, [])
 
     // Auth
     const connectWallet = async () => {
@@ -122,10 +122,8 @@ const NFTDropPage = ({ collection }: Props) => {
                 // cmAddress,
                 // collectionName,
 
-                // `${collection.address}`,
-                // `${collection.nftCollectionName}`,
-                "0xc931187f52e9aac219517880805f64eb4243dbe291fc150a9af5548714fbf202",
-                "Aptos Acid Apes 2",
+                `${collection.address}`,
+                `${collection.nftCollectionName}`,
                 amountToMint,
             ]
         };
@@ -232,7 +230,7 @@ const NFTDropPage = ({ collection }: Props) => {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-50 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
                             />
                             <button onClick={handleMint}
-                                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg px-4 py-2 font-semibold "
+                                className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold "
                             >Mint 1 for {collection.price} APT</button>
                         </div>
                     ) : (
@@ -247,7 +245,7 @@ const NFTDropPage = ({ collection }: Props) => {
                                 }}>
                                 <button
                                     onClick={handleMint}
-                                    className='h-16 bg-gradient-to-r from-cyan-500 to-blue-500 w-full text-white rounded-full mt-10 font-bold '>
+                                    className='h-16 bg-[#0e3839] w-3/5 text-white rounded-full mt-10 font-bold '>
                                     Mint For {collection.price} APT
                                 </button>
                             </motion.div>)}
