@@ -36,6 +36,9 @@ const NFTDropPage = ({ collection }: Props) => {
     })
 
     useEffect(() => {
+        if (!window.martian) {
+            return
+        }
         connectWallet()
         setMaxMintPerWallet(collection.maxMintPerWallet)
 

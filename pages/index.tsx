@@ -23,7 +23,7 @@ const Home = ({ collections }: Props) => {
         {' '} NFT Launchpad
       </h1>
       <div className=' px-10'>
-        <main className='bg-gradient-to-r from-green-900 to-green-900 p-10 shadow-xl shadow-[#0ca64c]/80 rounded-lg'>
+        <main className='bg-gradient-to-r from-[#051818] to-[#0e3839] p-10 shadow-xl shadow-[#0e3839]/80 rounded-lg'>
           <div className='grid space-x-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 space-y-15'>
             {collections?.sort((a, b) => (a.mintStartTime ? (a.mintStartTime) : "2050-02-12T09:15:00Z").localeCompare((b.mintStartTime ? (b.mintStartTime) : ("2050-02-12T09:15:00Z"))))
               .map((collection, i) => (
