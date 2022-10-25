@@ -44,8 +44,8 @@ const NFTDropPage = (collection: Props) => {
     //         setAmountLoading(true)
     //         const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
     //         const tokenClient = new TokenClient(client);
-    //         const creator = ""
-    //         const collectionName = ""
+    //         const creator = `${collection.collection.creator}`
+    //         const collectionName = `${collection.collection.nftCollectionName}`
     //         const data = await tokenClient.getCollectionData(creator, collectionName)
     //         const { description, maximum, name, supply, uri } = data
 
@@ -216,7 +216,6 @@ const NFTDropPage = (collection: Props) => {
                             </button>)}
                         </div>
                     )}
-
                 </div>
 
             </div>
