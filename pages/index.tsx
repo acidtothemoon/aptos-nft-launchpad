@@ -33,8 +33,15 @@ const Home = ({ collections }: Props) => {
               ))}
           </div>
         </main>
-        <h3 className='flex absolute inset-x-0 bottom-0 py-10 justify-center text-white font-bold'>Powered By Acid Labs</h3>
       </div>
+      <div className='flex justify-center py-5 sm:py-20'>
+        <h3 className=' text-white text-end'>
+          Powered by Acid Labs
+        </h3>
+      </div>
+      {/* <div className='flex justify-center absolute inset-x-0 bottom-0'>
+        <h3 className=' py-10 text-white font-bold'>Powered By Acid Labs</h3>
+      </div> */}
     </div>
   )
 }
