@@ -22,6 +22,7 @@ const NFTDropPage = ({ collection, }: Props) => {
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [amountLoading, setAmountLoading] = useState<boolean>(true)
     const [amountToMint, setAmountToMint] = useState<number>(1)
+    const [mintFee, setMintFee] = useState<number>(0)
     const [txHash, setTxHash] = useState<string>()
     const [countEnd, setCountEnd] = useState<boolean>(false)
     const [availableToMintAmount, setAvailableToMintAmount] = useState<number>(0)
@@ -78,7 +79,12 @@ const NFTDropPage = ({ collection, }: Props) => {
             if (!address) {
                 return
             } else {
-                const { max_supply_per_user, supply_per_wl: { handle: spw_handle }, mints_per_user: { handle: mpu_handle } } = await client.getTableItem(
+                const {
+                    max_supply_per_user,
+                    supply_per_wl: { handle: spw_handle },
+                    mints_per_user: { handle: mpu_handle },
+                    mint_fee_per_mille,
+                } = await client.getTableItem(
                     collection.collection_configs,
                     {
                         key_type: "0x1::string::String",
@@ -87,6 +93,8 @@ const NFTDropPage = ({ collection, }: Props) => {
                     }
                 );
                 // console.log(max_supply_per_user, spw_handle, mpu_handle);
+                console.log("price", mint_fee_per_mille)
+                setMintFee(mint_fee_per_mille/100000000);
 
                 const user_max_supply = await client.getTableItem(
                     spw_handle,
@@ -350,7 +358,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                             //                 onClick={handleMint}
                             //                 className='h-16 bg-[#0e3839] w-3/5 rounded-full mt-10 '>
                             //                 <p className='text-white font-semibold tracking-[5px] animate-pulse'>
-                            //                     Mint 1 For {collection?.price} APT
+                            //                     Mint 1 For {mintFee} APT
                             //                 </p>
                             //             </button>
                             //         </motion.div>}
@@ -374,7 +382,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                                         }}>
                                         <button onClick={handleMint}
                                             className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold"
-                                        >Mint {amountToMint ? amountToMint : 1} for {collection?.price * amountToMint ? collection?.price * amountToMint : collection?.price} APT</button>
+                                        >Mint {amountToMint ? amountToMint : 1} for {mintFee * amountToMint ? mintFee * amountToMint : mintFee} APT</button>
                                     </motion.div>
                                 </div>
                             </div>
