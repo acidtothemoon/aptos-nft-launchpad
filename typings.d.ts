@@ -30,6 +30,7 @@ export interface Collection {
     price: number
     mintStartTime: string
     mintEndTime: string
+    collection_configs: string
     socials: string[]
     maxMintPerWallet: number
     nftCollectionName: string

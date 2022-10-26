@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link';
 
-type Props = {}
+type Props = {
+    address?: string
+    setAddress: Function
+    isWalletConnected: Boolean
+    setIsWalletConnected: Function
+}
 
-const Header = (props: Props) => {
-    const [address, setAddress] = useState<String | null>(null)
-    const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
+const Header = ({ address, setAddress, isWalletConnected, setIsWalletConnected }: Props) => {
+
     // Auth
     const connectWallet = async () => {
         if ("martian" in window) {
@@ -31,14 +36,15 @@ const Header = (props: Props) => {
     }
     return (
         <div>
-            <header className='flex items-center justify-between'>
-                <h1 className='w-52 cursor-pointer text-xl font-extralight sm:w-80'>
-                    <span className='font-extrabold text-[#4a338e] underline decoration-pink-600/50'>
-                        Only2
-                    </span>
-                    {' '} NFT Launchpad
-
-                </h1>
+            <header className='flex flex-1 items-center justify-between text-white pt-8 '>
+                <Link href={'/'}>
+                    <h1 className='w-52 cursor-pointer text-xl font-bold sm:w-80 text-transparent text-white md:text-5xl' >
+                        <span className='font-extrabold '>
+                            Aptos
+                        </span>
+                        {' '} NFT Launchpad
+                    </h1>
+                </Link>
                 <motion.div
                     whileTap={{
                         scale: 0.8,
@@ -47,7 +53,7 @@ const Header = (props: Props) => {
                     }}
                 >
                     <button onClick={() => (isWalletConnected ? disconnect() : connectWallet())}
-                        className='rounded-full bg-blue-400 px-4 py-2 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
+                        className='rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-4 py-2 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
                         {isWalletConnected ? "Disconnect" : "Connect"}
                     </button>
                 </motion.div>

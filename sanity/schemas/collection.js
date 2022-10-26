@@ -35,6 +35,11 @@ export default {
             type: 'string',
         },
         {
+            name: 'collection_configs',
+            title: 'Collection Configs',
+            type: 'string',
+        },
+        {
             name: 'price',
             title: 'Price',
             type: 'number',
@@ -47,11 +52,6 @@ export default {
                 source: 'name',
                 maxLength: 96
             },
-        },
-        {
-            name: 'maxMintPerWallet',
-            title: 'Max Mint Per Wallet',
-            type: 'number',
         },
         {
             name: 'creator',
@@ -82,6 +82,6 @@ export default {
             title: 'Socials',
             type: 'array',
             of: [{ type: 'string' }]
-        }
+        },
     ]
 }

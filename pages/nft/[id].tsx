@@ -23,13 +23,12 @@ const NFTDropPage = ({ collection, }: Props) => {
     const [mintedAmount, setMintedAmount] = useState<number>(0)
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [amountLoading, setAmountLoading] = useState<boolean>(true)
-    const [minted, setMinted] = useState<boolean>(false)
-    const [minting, setMinting] = useState<boolean>(false)
     const [amountToMint, setAmountToMint] = useState<number>(1)
     const [maxMintPerWallet, setMaxMintPerWallet] = useState<number>(1)
     const [thisUserMinted, setThisUserMinted] = useState<number>(0)
     const [txHash, setTxHash] = useState<string>()
     const [countEnd, setCountEnd] = useState<boolean>(false)
+    const [availableToMintAmount, setAvailableToMintAmount] = useState<number>(0)
 
     const [countDays, setCountDays] = useState<number>(0)
     const [countHours, setCountHours] = useState<number>(0)
@@ -40,7 +39,6 @@ const NFTDropPage = ({ collection, }: Props) => {
         words: [
             `${collection.title}`,
         ],
-        // loop: true,
         delaySpeed: 2000,
     })
 
@@ -53,37 +51,60 @@ const NFTDropPage = ({ collection, }: Props) => {
 
     }, [address])
 
-    // useEffect(() => {
-    //     if (!address) {
-    //         return
-    //     }
-    //     const checkAvailableAmount = async () => {
-    //         const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
-    //         const tokenClient = new TokenClient(client);
-
-
-    //         const tokenData = await tokenClient.getToken(address, collection.nftCollectionName,);
-    //     }
-
-    // }, [address])
-
     useEffect(() => {
         const fetchNFTDropData = async () => {
             setAmountLoading(true)
             // const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
             const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
             const tokenClient = new TokenClient(client);
-            // const creator = `${collection.creator}`
-            const resourceAccount = collection.resourceAccount
 
-            // const collectionName = `${collection.nftCollectionName}`
+            const resourceAccount = collection.resourceAccount
             const collectionName = collection.nftCollectionName
             const data = await tokenClient.getCollectionData(resourceAccount, collectionName)
+
             const { description, maximum, name, supply, uri } = data
 
             setMintedAmount(supply)
             setTotalSupply(maximum)
             setAmountLoading(false)
+
+            if (!address) {
+                return
+            } else {
+                const { max_supply_per_user, supply_per_wl: { handle: spw_handle }, mints_per_user: { handle: mpu_handle } } = await client.getTableItem(
+                    collection.collection_configs,
+                    {
+                        key_type: "0x1::string::String",
+                        value_type: "0xdf5c814388f4162f353e14f6123fcba8f39a958e4a2640e38e9e2c7cdfd2ac1d::candy_machine_v2::CollectionConfig",
+                        key: collectionName,
+                    }
+                );
+                console.log(max_supply_per_user, spw_handle, mpu_handle);
+
+                const user_max_supply = await client.getTableItem(
+                    spw_handle,
+                    {
+                        key_type: "address",
+                        value_type: "u64",
+                        key: address,
+                    }
+                )
+                    .then(wl_max => wl_max)
+                    .catch(() => max_supply_per_user);
+
+                const user_minted_amount = await client.getTableItem(
+                    mpu_handle,
+                    {
+                        key_type: "address",
+                        value_type: "u64",
+                        key: address,
+                    }
+                )
+                    .then(mintedAmount => mintedAmount)
+                    .catch(() => 0);
+                console.log("user_max_supply", user_max_supply);
+                console.log("user_minted_amount", user_minted_amount);
+            }
         }
 
         fetchNFTDropData()
@@ -140,15 +161,13 @@ const NFTDropPage = ({ collection, }: Props) => {
             toast.error("Mint is over")
             return
         }
+
         // Generate a transaction
         const payload = {
             type: "entry_function_payload",
             function: "0xdf5c814388f4162f353e14f6123fcba8f39a958e4a2640e38e9e2c7cdfd2ac1d::candy_machine_v2::mint_tokens",
             type_arguments: [],
             arguments: [
-                // cmAddress,
-                // collectionName,
-
                 `${collection.creator.address}`,
                 `${collection.nftCollectionName}`,
                 amountToMint,
@@ -163,17 +182,13 @@ const NFTDropPage = ({ collection, }: Props) => {
         console.log(txnHash);
     }
 
-    const mintingStartTime = new Date(collection.mintStartTime)
-    const now = new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000
-    const distance = mintingStartTime.getTime() - now
-
-
     return (
         <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 overflow-y-scroll'>
             <Head>
                 <title>{collection.title} Mint Page</title>
             </Head>
             <Toaster position='bottom-center' />
+
             {/* Left */}
             <div className='lg:col-span-4 bg-gradient-to-r from-[#051818] to-[#0e3839] pr-5 pl-5'>
                 {/* Header */}
@@ -199,6 +214,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                         </button>
                     </motion.div>
                 </header>
+                {/* <Header address={address} setAddress={setAddress} isWalletConnected={isWalletConnected} setIsWalletConnected={setIsWalletConnected} /> */}
                 {address && (
                     <p className='text-right text-sm text-[#52dc82] py-2 font-semibold'>
                         You're logged in with {address.substring(0, 5)}...{address.substring(address.length - 5, address.length)}
@@ -254,7 +270,6 @@ const NFTDropPage = ({ collection, }: Props) => {
                             </div>
                             <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintStartTime).toDateString()}</div>
                         </div>
-
                     ) : (
                         <div>
                             <div className='text-lg text-white flex justify-center text-center'>
@@ -295,12 +310,14 @@ const NFTDropPage = ({ collection, }: Props) => {
                         )}
                     </h2>
 
+                    <div className='text-white font-semibold tracking-[5px] py-2'>
+                        You can mint {availableToMintAmount}!
+                    </div>
+
                     {/* Mint Button */}
-                    {(!txHash) && ((maxMintPerWallet == 1) ? (
+                    {(availableToMintAmount > 0) && ((availableToMintAmount == 1) ? (
                         <div className='w-full'>
-                            {minted ? (<div className='text-white font-bold text-xl text-center py-2'>
-                                &nbsp;You have minted one!
-                            </div>) : (<motion.div
+                            {<motion.div
                                 whileTap={{
                                     scale: 0.8,
                                     rotate: 0,
@@ -308,10 +325,12 @@ const NFTDropPage = ({ collection, }: Props) => {
                                 }}>
                                 <button
                                     onClick={handleMint}
-                                    className='h-16 bg-[#0e3839] w-3/5 text-white rounded-full mt-10 font-bold '>
-                                    Mint 1 For {collection?.price} APT
+                                    className='h-16 bg-[#0e3839] w-3/5 rounded-full mt-10 '>
+                                    <p className='text-white font-semibold tracking-[5px] animate-pulse'>
+                                        Mint 1 For {collection?.price} APT
+                                    </p>
                                 </button>
-                            </motion.div>)}
+                            </motion.div>}
                         </div>
                     ) : (
                         <div className='py-5 truncate space-x-2'>
@@ -327,6 +346,8 @@ const NFTDropPage = ({ collection, }: Props) => {
                             >Mint {amountToMint ? amountToMint : 1} for {collection?.price * amountToMint ? collection?.price * amountToMint : collection?.price} APT</button>
                         </div>
                     ))}
+
+                    {/* If TxHash */}
                     {(txHash) && (
                         <a target='_blank' href={`https://explorer.aptoslabs.com/txn/${txHash}`} >
                             <div className='py-5 text-white font-bold text-lg'>&nbsp;Successfully minted {amountToMint}!</div>
@@ -335,8 +356,15 @@ const NFTDropPage = ({ collection, }: Props) => {
                             </div>
                         </a>
                     )}
-                </div>
 
+                    {/* If cannot mint */}
+                    {(!availableToMintAmount) && (
+                        <div>
+                            Sorry, You're not able to mint
+                        </div>
+                    )}
+
+                </div>
             </div>
 
         </div>
@@ -351,10 +379,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 title,
                 resourceAccount,
                 price,
+                collection_configs,
                 mintStartTime,
                 mintEndTime,
                 socials,
-                maxMintPerWallet,
                 description,
                 nftCollectionName,
                 mainImage{

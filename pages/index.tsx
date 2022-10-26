@@ -71,9 +71,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     price,
     description,
     mintStartTime,
-    socials,
     mintEndTime,
-    maxMintPerWallet,
     nftCollectionName,
     mainImage{
       asset
