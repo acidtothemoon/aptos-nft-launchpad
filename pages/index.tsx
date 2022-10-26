@@ -4,6 +4,7 @@ import CollectionCard from '../components/CollectionCard'
 import { sanityClient } from '../sanity'
 import { fetchCollections } from '../utils/fetchCollections'
 import { Collection } from '../typings';
+import { motion } from 'framer-motion';
 
 
 interface Props {
@@ -28,14 +29,22 @@ const Home = ({ collections }: Props) => {
       </h1>
       <div className='px-10'>
         <main className='bg-gradient-to-r from-[#051818] to-[#0e3839] p-10 shadow-xl shadow-[#0e3839]/80 rounded-lg'>
+
           <div className='grid space-x-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 space-y-15'>
             {collections?.sort((a, b) => (a.mintStartTime ? (a.mintStartTime) : "2050-02-12T09:15:00Z").localeCompare((b.mintStartTime ? (b.mintStartTime) : ("2050-02-12T09:15:00Z"))))
               .map((collection, i) => (
-                <div key={i} className='py-4'>
+                <motion.div
+                  whileTap={{
+                    scale: 0.8,
+                    rotate: 0,
+                    borderRadius: "100%"
+                  }}
+                  key={i} className='py-4'>
                   <CollectionCard collection={collection} />
-                </div>
+                </motion.div>
               ))}
           </div>
+
         </main>
       </div>
       <div className='flex justify-center py-10 sm:py-20'>
