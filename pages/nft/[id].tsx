@@ -54,8 +54,8 @@ const NFTDropPage = ({ collection, }: Props) => {
     useEffect(() => {
         const fetchNFTDropData = async () => {
             setAmountLoading(true)
-            // const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
-            const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
+            const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
+            // const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
             const tokenClient = new TokenClient(client);
 
             const resourceAccount = collection.resourceAccount
@@ -196,7 +196,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                     <Link href={'/'}>
                         <h1 className='w-52 cursor-pointer text-xl font-bold sm:w-80 text-transparent text-white md:text-5xl' >
                             <span className='font-extrabold '>
-                                Aptos
+                                Acid Labs Aptos
                             </span>
                             {' '} NFT Launchpad
                         </h1>
@@ -268,7 +268,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                             <div className='text-lg text-white flex justify-center text-center'>
                                 Minting Starts At:
                             </div>
-                            <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintStartTime).toDateString()}</div>
+                            {/* <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintStartTime).toDateString()}</div> */}
                         </div>
                     ) : (
                         <div>
@@ -279,7 +279,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                         </div>
                     )}
 
-                    <div className='flex py-5 justify-center'>
+                    <div className='flex py-10 justify-center'>
                         <Countdown countEnd={countEnd} setCountEnd={setCountEnd} mintStartTime={collection?.mintStartTime} mintEndTime={collection?.mintEndTime} countDays={countDays} countHours={countHours} countMinutes={countMinutes} countSeconds={countSeconds} setCountDays={setCountDays} setCountHours={setCountHours} setCountMinutes={setCountMinutes} setCountSeconds={setCountSeconds} />
                     </div>
                 </div>

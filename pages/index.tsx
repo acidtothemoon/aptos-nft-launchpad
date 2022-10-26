@@ -15,12 +15,12 @@ const Home = ({ collections }: Props) => {
   return (
     <div className='py-8 mx-auto flex min-h-screen flex-col md:py-20 md:px-10 2xl:px-0 bg-black'>
       <Head>
-        <title>Aptos NFT Launchpad</title>
+        <title>Acid Labs Aptos NFT Launchpad</title>
       </Head>
 
       <h1 className='px-6 md:px-20 mb-10 text-3xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#11bbca] to-[#036e30] '>
         <span className='font-extrabold '>
-          Aptos
+        Acid Labs Aptos
         </span>
         {' '} NFT Launchpad
       </h1>

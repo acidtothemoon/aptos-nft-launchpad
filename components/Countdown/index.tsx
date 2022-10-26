@@ -17,17 +17,21 @@ type Props = {
 
 const Countdown = ({ countEnd, setCountEnd, mintStartTime, mintEndTime, countDays, countHours, countMinutes, countSeconds, setCountDays, setCountHours, setCountMinutes, setCountSeconds }: Props) => {
 
-    const mintingStartTime = new Date(mintStartTime)
-    const mintingEndTime = new Date(mintEndTime)
+    // const mintingStartTime = new Date(mintStartTime)
+    // const mintingEndTime = new Date(mintEndTime)
 
     const startTimer = () => {
+        console.log(mintStartTime)
         // console.log(mintingStartTime.getTimezoneOffset())
-        const startCountDownDate = mintingStartTime.getTime()
-        const EndCountDownDate = mintingEndTime.getTime()
+        const startCountDownDate = Date.parse(mintStartTime)
+        const EndCountDownDate = Date.parse(mintEndTime)
 
         const interval = setInterval(() => {
-            const now = new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000
+            const now = new Date().getTime()
+            // console.log(now)
+            // console.log(startCountDownDate)
             const startDistance = startCountDownDate - now
+            // console.log(startDistance)
             const endDistance = EndCountDownDate - now
 
             if (startDistance > 0) {
