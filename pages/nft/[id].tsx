@@ -62,10 +62,10 @@ const NFTDropPage = ({ collection, }: Props) => {
             const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
             const tokenClient = new TokenClient(client);
             // const creator = `${collection.creator}`
-            const resourceAccount = "0x125f95e8c69d0ac652a031bda65873431319ffe011d3c4db261dc9868ae6514c"
+            const resourceAccount = collection.resourceAccount
 
             // const collectionName = `${collection.nftCollectionName}`
-            const collectionName = "Aptos Acid Apes 2"
+            const collectionName = collection.nftCollectionName
             const data = await tokenClient.getCollectionData(resourceAccount, collectionName)
             const { description, maximum, name, supply, uri } = data
 
@@ -133,16 +133,17 @@ const NFTDropPage = ({ collection, }: Props) => {
                 // cmAddress,
                 // collectionName,
 
-                `${collection.address}`,
+                `${collection.creator.address}`,
                 `${collection.nftCollectionName}`,
                 amountToMint,
             ]
         };
+        console.log(payload)
+
         const transaction = await window.martian.generateTransaction(address, payload);
         const txnHash = await window.martian.signAndSubmitTransaction(transaction);
 
         setTxHash(txnHash)
-
         console.log(txnHash);
     }
 
@@ -303,7 +304,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const query = `*[_type=="collection" && slug.current==$id][0]{
                 _id,
                 title,
-                address,
+                resourceAccount,
                 price,
                 mintStartTime,
                 mintEndTime,

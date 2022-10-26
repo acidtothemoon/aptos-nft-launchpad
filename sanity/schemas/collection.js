@@ -30,8 +30,8 @@ export default {
             type: 'string',
         },
         {
-            name: 'address',
-            title: 'Address',
+            name: 'resourceAccount',
+            title: 'Resource Account',
             type: 'string',
         },
         {

@@ -33,7 +33,7 @@ export interface Collection {
     socials: string[]
     maxMintPerWallet: number
     nftCollectionName: string
-    address: string
+    resourceAccount: string
     slug: {
         current: string
     }
