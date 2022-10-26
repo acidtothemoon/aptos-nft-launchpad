@@ -18,7 +18,7 @@ type Props = {
 }
 
 const NFTDropPage = ({ collection, }: Props) => {
-    const [address, setAddress] = useState<String | null>(null)
+    const [address, setAddress] = useState<string | null>(null)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
     const [mintedAmount, setMintedAmount] = useState<number>(0)
     const [totalSupply, setTotalSupply] = useState<number>(0)
@@ -47,13 +47,19 @@ const NFTDropPage = ({ collection, }: Props) => {
 
     }, [address])
 
-    useEffect(() => {
-        if (!(maxMintPerWallet === 1)) {
-            return
-        }
-        //check if minted
-        //setMinted(minted)
-    }, [txHash])
+    // useEffect(() => {
+    //     if (!address) {
+    //         return
+    //     }
+    //     const checkAvailableAmount = async () => {
+    //         const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
+    //         const tokenClient = new TokenClient(client);
+
+
+    //         const tokenData = await tokenClient.getToken(address, collection.nftCollectionName,);
+    //     }
+
+    // }, [address])
 
     useEffect(() => {
         const fetchNFTDropData = async () => {
@@ -75,7 +81,7 @@ const NFTDropPage = ({ collection, }: Props) => {
         }
 
         fetchNFTDropData()
-    }, [])
+    }, [address, txHash])
 
     // Auth
     const connectWallet = async () => {
@@ -280,12 +286,13 @@ const NFTDropPage = ({ collection, }: Props) => {
                             />
                             <button onClick={handleMint}
                                 className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold"
-                            >Mint {amountToMint} for {collection?.price * amountToMint} APT</button>
+                            >Mint {amountToMint ? amountToMint : 1} for {collection?.price * amountToMint ? collection?.price * amountToMint : collection?.price} APT</button>
                         </div>
                     ))}
                     {(txHash) && (
                         <a target='_blank' href={`https://explorer.aptoslabs.com/txn/${txHash}`} >
-                            <div className='text-white animate-pulse py-5'>
+                            <div className='py-5 text-white font-bold text-lg'>&nbsp;Successfully minted {amountToMint}!</div>
+                            <div className='text-white font-bold animate-pulse py-3'>
                                 &nbsp;Click to check your transaction
                             </div>
                         </a>
