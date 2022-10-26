@@ -1,35 +1,56 @@
 import React, { useEffect, useState, Fragment } from 'react'
 
-type Props = { mintStartTime: string }
+type Props = {
+    mintStartTime: string
+    mintEndTime: string
+    countDays: number
+    countHours: number
+    countMinutes: number
+    countSeconds: number
+    setCountDays: Function
+    setCountHours: Function
+    setCountMinutes: Function
+    setCountSeconds: Function
+    countEnd: boolean
+    setCountEnd: Function
+}
 
-const Countdown = ({ mintStartTime }: Props) => {
-
-    const [countDays, setCountDays] = useState<number>(0)
-    const [countHours, setCountHours] = useState<number>(0)
-    const [countMinutes, setCountMinutes] = useState<number>(0)
-    const [countSeconds, setCountSeconds] = useState<number>(0)
+const Countdown = ({ countEnd, setCountEnd, mintStartTime, mintEndTime, countDays, countHours, countMinutes, countSeconds, setCountDays, setCountHours, setCountMinutes, setCountSeconds }: Props) => {
 
     const mintingStartTime = new Date(mintStartTime)
+    const mintingEndTime = new Date(mintEndTime)
 
     const startTimer = () => {
         // console.log(mintingStartTime.getTimezoneOffset())
-        const countDownDate = mintingStartTime.getTime() - 60 * mintingStartTime.getTimezoneOffset() * 1000
+        const startCountDownDate = mintingStartTime.getTime()
+        const EndCountDownDate = mintingEndTime.getTime()
 
         const interval = setInterval(() => {
-            const now = new Date().getTime()
-            const distance = countDownDate - now
-            const days = Math.floor(distance / 86400000)
-            const hours = Math.floor((distance % 86400000) / 3600000)
-            const minutes = Math.floor((distance % 3600000) / 60000)
-            const seconds = Math.floor((distance % 60000) / 1000)
+            const now = new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000
+            const startDistance = startCountDownDate - now
+            const endDistance = EndCountDownDate - now
 
-            if (distance < 0) {
-                clearInterval(interval)
+            if (startDistance > 0) {
+                const startDays = Math.floor(startDistance / 86400000)
+                const startHours = Math.floor((startDistance % 86400000) / 3600000)
+                const startMinutes = Math.floor((startDistance % 3600000) / 60000)
+                const startSeconds = Math.floor((startDistance % 60000) / 1000)
+                setCountDays(startDays)
+                setCountHours(startHours)
+                setCountMinutes(startMinutes)
+                setCountSeconds(startSeconds)
+            } else if (endDistance > 0) {
+                setCountEnd(true)
+                const endDays = Math.floor(endDistance / 86400000)
+                const endHours = Math.floor((endDistance % 86400000) / 3600000)
+                const endMinutes = Math.floor((endDistance % 3600000) / 60000)
+                const endSeconds = Math.floor((endDistance % 60000) / 1000)
+                setCountDays(endDays)
+                setCountHours(endHours)
+                setCountMinutes(endMinutes)
+                setCountSeconds(endSeconds)
             } else {
-                setCountDays(days)
-                setCountHours(hours)
-                setCountMinutes(minutes)
-                setCountSeconds(seconds)
+                clearInterval(interval)
             }
         })
     }

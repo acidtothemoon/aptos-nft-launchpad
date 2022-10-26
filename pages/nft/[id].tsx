@@ -29,6 +29,12 @@ const NFTDropPage = ({ collection, }: Props) => {
     const [maxMintPerWallet, setMaxMintPerWallet] = useState<number>(1)
     const [thisUserMinted, setThisUserMinted] = useState<number>(0)
     const [txHash, setTxHash] = useState<string>()
+    const [countEnd, setCountEnd] = useState<boolean>(false)
+
+    const [countDays, setCountDays] = useState<number>(0)
+    const [countHours, setCountHours] = useState<number>(0)
+    const [countMinutes, setCountMinutes] = useState<number>(0)
+    const [countSeconds, setCountSeconds] = useState<number>(0)
 
     const [text, count] = useTypewriter({
         words: [
@@ -130,6 +136,10 @@ const NFTDropPage = ({ collection, }: Props) => {
             toast.error("Minted out")
             return
         }
+        if (countDays === 0 && countHours === 0 && countMinutes === 0 && countSeconds === 0) {
+            toast.error("Mint is over")
+            return
+        }
         // Generate a transaction
         const payload = {
             type: "entry_function_payload",
@@ -152,6 +162,11 @@ const NFTDropPage = ({ collection, }: Props) => {
         setTxHash(txnHash)
         console.log(txnHash);
     }
+
+    const mintingStartTime = new Date(collection.mintStartTime)
+    const now = new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000
+    const distance = mintingStartTime.getTime() - now
+
 
     return (
         <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 overflow-y-scroll'>
@@ -231,13 +246,36 @@ const NFTDropPage = ({ collection, }: Props) => {
             {/* Right */}
             <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-black'>
                 {/* Countdown */}
-                <div className='text-lg text-white flex justify-center text-center'>
+                <div>
+                    {(!countEnd) ? (
+                        <div>
+                            <div className='text-lg text-white flex justify-center text-center'>
+                                Minting Starts At:
+                            </div>
+                            <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintStartTime).toDateString()}</div>
+                        </div>
+
+                    ) : (
+                        <div>
+                            <div className='text-lg text-white flex justify-center text-center'>
+                                Minting Ends In:
+                            </div>
+                            <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintEndTime).toDateString()}</div>
+                        </div>
+                    )}
+
+                    <div className='flex py-5 justify-center'>
+                        <Countdown countEnd={countEnd} setCountEnd={setCountEnd} mintStartTime={collection?.mintStartTime} mintEndTime={collection?.mintEndTime} countDays={countDays} countHours={countHours} countMinutes={countMinutes} countSeconds={countSeconds} setCountDays={setCountDays} setCountHours={setCountHours} setCountMinutes={setCountMinutes} setCountSeconds={setCountSeconds} />
+                    </div>
+                </div>
+
+                {/* <div className='text-lg text-white flex justify-center text-center'>
                     Minting Starts At:
                 </div>
                 <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintStartTime).toDateString()}</div>
                 <div className='flex py-5 justify-center'>
-                    <Countdown mintStartTime={collection?.mintStartTime} />
-                </div>
+                    <Countdown mintStartTime={collection?.mintStartTime} countDays={countDays} countHours={countHours} countMinutes={countMinutes} countSeconds={countSeconds} setCountDays={setCountDays} setCountHours={setCountHours} setCountMinutes={setCountMinutes} setCountSeconds={setCountSeconds} />
+                </div> */}
                 {/* Content */}
                 <div className='flex flex-2 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0 py-2'>
                     <img className='w-80 object-cover lg:h-100 rounded-xl'
