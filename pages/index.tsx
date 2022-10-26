@@ -50,55 +50,55 @@ const Home = ({ collections }: Props) => {
 export default Home
 
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const collections: Collection[] = await fetchCollections()
+// export const getStaticProps: GetStaticProps<Props> = async () => {
+//   const collections: Collection[] = await fetchCollections()
 
-  return {
-    props: {
-      collections,
-    },
-    revalidate: 10,
-  }
-}
-
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   console.log("start querying")
-//   const query = `*[_type=="collection"]{
-//     _id,
-//     title,
-//     address,
-//     price,
-//     description,
-//     mintStartTime,
-//     socials,
-//     mintEndTime,
-//     maxMintPerWallet,
-//     nftCollectionName,
-//     mainImage{
-//       asset
-//     },
-//     previewImage{
-//       asset
-//     },
-//     slug{
-//       current
-//     },
-//     creator->{
-//       _id,
-//       name,
-//       address,
-//       slug  {
-//       current
-//       },
-//     }
-//   }`
-
-//   const collections = await sanityClient.fetch(query)
-//   console.log(collections)
 //   return {
 //     props: {
 //       collections,
 //     },
+//     revalidate: 10,
 //   }
 // }
+
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  console.log("start querying")
+  const query = `*[_type=="collection"]{
+    _id,
+    title,
+    address,
+    price,
+    description,
+    mintStartTime,
+    socials,
+    mintEndTime,
+    maxMintPerWallet,
+    nftCollectionName,
+    mainImage{
+      asset
+    },
+    previewImage{
+      asset
+    },
+    slug{
+      current
+    },
+    creator->{
+      _id,
+      name,
+      address,
+      slug  {
+      current
+      },
+    }
+  }`
+
+  const collections = await sanityClient.fetch(query)
+  console.log(collections)
+  return {
+    props: {
+      collections,
+    },
+  }
+}
