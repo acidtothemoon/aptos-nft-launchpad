@@ -109,8 +109,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                 )
                     .then(mintedAmount => mintedAmount)
                     .catch(() => 0);
-                console.log("user_max_supply", user_max_supply);
-                console.log("user_minted_amount", user_minted_amount);
+
                 setAvailableToMintAmount(user_max_supply - user_minted_amount)
                 setAvaiableMintChecking(false)
             }
@@ -122,16 +121,16 @@ const NFTDropPage = ({ collection, }: Props) => {
     // Auth
     const connectWallet = async () => {
         if ("martian" in window) {
-            console.log("connecting wallet")
+            // console.log("connecting wallet")
             const response = await window.martian.connect();
             const address = response.address
-            console.log(address);
+            // console.log(address);
             setAddress(address)
             const isConnected = await window.martian.isConnected()
             if (isConnected) {
                 setIsWalletConnected(true)
             }
-            console.log("wallet connected");
+            // console.log("wallet connected");
             return;
         }
         window.open("https://www.martianwallet.xyz/", "_blank");
@@ -147,7 +146,7 @@ const NFTDropPage = ({ collection, }: Props) => {
     };
 
     const handleMint = async () => {
-        console.log(address);
+        // console.log(address);
         // Auth
         if (!address) {
             toast.error("Connect wallet first!")
@@ -187,13 +186,13 @@ const NFTDropPage = ({ collection, }: Props) => {
                 amountToMint,
             ]
         };
-        console.log(payload)
+        // console.log(payload)
 
         const transaction = await window.martian.generateTransaction(address, payload);
         const txnHash = await window.martian.signAndSubmitTransaction(transaction);
 
         setTxHash(txnHash)
-        console.log(txnHash);
+        // console.log(txnHash);
     }
 
     return (
