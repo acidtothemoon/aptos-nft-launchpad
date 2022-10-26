@@ -50,6 +50,7 @@ const NFTDropPage = ({ collection, }: Props) => {
     useEffect(() => {
         const fetchNFTDropData = async () => {
             setAmountLoading(true)
+            setAvaiableMintChecking(true)
             const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
             // const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
             const tokenClient = new TokenClient(client);
@@ -69,7 +70,6 @@ const NFTDropPage = ({ collection, }: Props) => {
             ).catch(
                 () => 0
             );
-            console.log(minted_supply)
 
             setMintedAmount(minted_supply)
             setTotalSupply(maximum)
@@ -78,7 +78,6 @@ const NFTDropPage = ({ collection, }: Props) => {
             if (!address) {
                 return
             } else {
-                setAvaiableMintChecking(true)
                 const { max_supply_per_user, supply_per_wl: { handle: spw_handle }, mints_per_user: { handle: mpu_handle } } = await client.getTableItem(
                     collection.collection_configs,
                     {
@@ -233,11 +232,11 @@ const NFTDropPage = ({ collection, }: Props) => {
                     </motion.div>
                 </header>
                 {/* <Header address={address} setAddress={setAddress} isWalletConnected={isWalletConnected} setIsWalletConnected={setIsWalletConnected} /> */}
-                {address && (
+                {address ? (
                     <p className='text-right text-sm text-[#52dc82] py-2 font-semibold'>
                         You're logged in with {address.substring(0, 5)}...{address.substring(address.length - 5, address.length)}
                     </p>
-                )}
+                ) : null}
 
                 <div className='flex flex-col items-center justify-center py-10 lg:min-h-screen lg:pb-80'>
                     <div className='bg-gradient-to-br from-blue-800 to-white p-1 md:p-2 rounded-xl'>
@@ -384,7 +383,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                         ))}
 
                     {/* If TxHash */}
-                    {(txHash) && (
+                    {txHash ? (
                         <div>
                             <div className='py-5 text-white font-bold text-lg'>&nbsp;Successfully minted {amountToMint}!</div>
                             <a target='_blank' href={`https://explorer.aptoslabs.com/txn/${txHash}`} >
@@ -393,7 +392,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                                 </div>
                             </a>
                         </div>
-                    )}
+                    ) : null}
 
                 </div>
             </div>
