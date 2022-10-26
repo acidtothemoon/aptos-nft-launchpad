@@ -27,6 +27,7 @@ const NFTDropPage = ({ collection, }: Props) => {
     const [txHash, setTxHash] = useState<string>()
     const [countEnd, setCountEnd] = useState<boolean>(false)
     const [availableToMintAmount, setAvailableToMintAmount] = useState<number>(0)
+    const [successfullyMinted, setSuccessfullyMinted] = useState<number>(0)
 
     const [countDays, setCountDays] = useState<number>(0)
     const [countHours, setCountHours] = useState<number>(0)
@@ -193,7 +194,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                 <header className='flex items-center justify-between text-white pt-8 '>
                     <Link href={'/'}>
                         <div className='cursor-pointer md:text-5xl p-5'>
-                            <h1 className='w-52 text-2xl font-bold sm:w-400 text-white md:text-5xl' >
+                            <h1 className=' text-2xl font-bold sm:w-400 text-white md:text-5xl' >
                                 Acid Labs
                             </h1>
                             <p className='flex text-md text-lg'>
@@ -247,6 +248,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                         {/** Social icon */}
                         {collection.socials?.map((social) => (
                             <SocialIcon
+                                key={social}
                                 url={social}
                                 fgColor="gray"
                                 bgColor="transparent"
@@ -255,7 +257,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                     </motion.div>
                     <div className='text-center p-2 lg:p-3 space-y-2'>
                         <h1 className=' text-4xl font-bold text-white'>{collection?.title}</h1>
-                        <h2 className='text-xl text-gray-300'>{collection?.description}</h2>
+                        <h2 className='text-xl text-gray-300 text-semibold'>{collection?.description}</h2>
                     </div>
                 </div>
             </div>
@@ -266,15 +268,15 @@ const NFTDropPage = ({ collection, }: Props) => {
                 <div>
                     {(!countEnd) ? (
                         <div>
-                            <div className='text-lg text-white flex justify-center text-center'>
-                                Minting Starts At:
+                            <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                                Minting Starts At
                             </div>
                             {/* <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintStartTime).toDateString()}</div> */}
                         </div>
                     ) : (
                         <div>
-                            <div className='text-lg text-white flex justify-center text-center'>
-                                Minting Ends In:
+                            <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                                Minting Ends In
                             </div>
                             <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintEndTime).toDateString()}</div>
                         </div>
@@ -292,6 +294,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                 <div className='flex py-5 justify-center'>
                     <Countdown mintStartTime={collection?.mintStartTime} countDays={countDays} countHours={countHours} countMinutes={countMinutes} countSeconds={countSeconds} setCountDays={setCountDays} setCountHours={setCountHours} setCountMinutes={setCountMinutes} setCountSeconds={setCountSeconds} />
                 </div> */}
+
                 {/* Content */}
                 <div className='flex flex-2 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0 py-2'>
                     <img className='w-80 object-cover lg:h-100 rounded-xl'
@@ -307,61 +310,62 @@ const NFTDropPage = ({ collection, }: Props) => {
                                 <h1 className='animate-pulse'>&nbsp;Loading supply count...</h1>
                             </div>
                         ) : (
-                            <div>&nbsp; {mintedAmount}/{totalSupply}</div>
+                            <div>{mintedAmount}/{totalSupply}</div>
                         )}
                     </h2>
 
-                    <div className='text-white font-semibold tracking-[5px] py-2'>
-                        You can mint {availableToMintAmount}!
-                    </div>
 
-                    {/* Mint Button */}
-                    {(availableToMintAmount > 0) && ((availableToMintAmount == 1) ? (
-                        <div className='w-full'>
-                            {<motion.div
-                                whileTap={{
-                                    scale: 0.8,
-                                    rotate: 0,
-                                    borderRadius: "100%"
-                                }}>
-                                <button
-                                    onClick={handleMint}
-                                    className='h-16 bg-[#0e3839] w-3/5 rounded-full mt-10 '>
-                                    <p className='text-white font-semibold tracking-[5px] animate-pulse'>
-                                        Mint 1 For {collection?.price} APT
-                                    </p>
-                                </button>
-                            </motion.div>}
+                    {(availableToMintAmount === 0) ? (
+                        <div className='py-2 text-white font-semibold text-lg'>
+                            Sorry, You're not able to mint
                         </div>
                     ) : (
-                        <div className='py-5 truncate space-x-2'>
-                            <input
-                                type="number"
-                                onChange={handleChange}
-                                value={amountToMint}
-                                placeholder='Amount to mint'
-                                className="text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
-                            />
-                            <button onClick={handleMint}
-                                className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold"
-                            >Mint {amountToMint ? amountToMint : 1} for {collection?.price * amountToMint ? collection?.price * amountToMint : collection?.price} APT</button>
-                        </div>
-                    ))}
+                        (availableToMintAmount === 1) ? (
+                            <div className='w-full'>
+                                <div className='text-white py-3 font-semibold text-lg'>You can mint 1 !</div>
+                                {<motion.div
+                                    whileTap={{
+                                        scale: 0.8,
+                                        rotate: 0,
+                                        borderRadius: "100%"
+                                    }}>
+                                    <button
+                                        onClick={handleMint}
+                                        className='h-16 bg-[#0e3839] w-3/5 rounded-full mt-10 '>
+                                        <p className='text-white font-semibold tracking-[5px] animate-pulse'>
+                                            Mint 1 For {collection?.price} APT
+                                        </p>
+                                    </button>
+                                </motion.div>}
+                            </div>
+                        ) : (
+                            <div>
+                                <div className='text-white py-3 font-semibold text-lg'>You can mint {availableToMintAmount} !</div>
+                                <div className='py-5 truncate space-x-2'>
+                                    <input
+                                        type="number"
+                                        onChange={handleChange}
+                                        value={amountToMint}
+                                        placeholder='Amount to mint'
+                                        className="text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
+                                    />
+                                    <button onClick={handleMint}
+                                        className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold"
+                                    >Mint {amountToMint ? amountToMint : 1} for {collection?.price * amountToMint ? collection?.price * amountToMint : collection?.price} APT</button>
+                                </div>
+                            </div>
+                        )
+                    )}
 
                     {/* If TxHash */}
                     {(txHash) && (
-                        <a target='_blank' href={`https://explorer.aptoslabs.com/txn/${txHash}`} >
-                            <div className='py-5 text-white font-bold text-lg'>&nbsp;Successfully minted {amountToMint}!</div>
-                            <div className='text-white font-bold animate-pulse py-3'>
-                                &nbsp;Click to check your transaction
-                            </div>
-                        </a>
-                    )}
-
-                    {/* If cannot mint */}
-                    {(!availableToMintAmount) && (
                         <div>
-                            Sorry, You're not able to mint
+                            <div className='py-5 text-white font-bold text-lg'>&nbsp;Successfully minted {amountToMint}!</div>
+                            <a target='_blank' href={`https://explorer.aptoslabs.com/txn/${txHash}`} >
+                                <div className='text-white font-bold animate-pulse py-3'>
+                                    &nbsp;Click to check your transaction
+                                </div>
+                            </a>
                         </div>
                     )}
 
