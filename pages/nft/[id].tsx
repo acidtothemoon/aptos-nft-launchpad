@@ -60,7 +60,18 @@ const NFTDropPage = ({ collection, }: Props) => {
 
             const { description, maximum, name, supply, uri } = data
 
-            setMintedAmount(supply)
+            const minted_supply = await client.getAccountResource(
+                resourceAccount,
+                "0x3::token::Collections"
+            ).then(
+                //@ts-ignore
+                collectionsEvent => collectionsEvent.data.mint_token_events.counter
+            ).catch(
+                () => 0
+            );
+            console.log(minted_supply)
+
+            setMintedAmount(minted_supply)
             setTotalSupply(maximum)
             setAmountLoading(false)
 
@@ -75,7 +86,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                         key: collectionName,
                     }
                 );
-                console.log(max_supply_per_user, spw_handle, mpu_handle);
+                // console.log(max_supply_per_user, spw_handle, mpu_handle);
 
                 const user_max_supply = await client.getTableItem(
                     spw_handle,
