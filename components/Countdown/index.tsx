@@ -12,7 +12,8 @@ const Countdown = ({ mintStartTime }: Props) => {
     const mintingStartTime = new Date(mintStartTime)
 
     const startTimer = () => {
-        const countDownDate = mintingStartTime.getTime()
+        // console.log(mintingStartTime.getTimezoneOffset())
+        const countDownDate = mintingStartTime.getTime() - 60 * mintingStartTime.getTimezoneOffset() * 1000
 
         const interval = setInterval(() => {
             const now = new Date().getTime()

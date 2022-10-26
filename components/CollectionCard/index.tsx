@@ -10,7 +10,7 @@ const CollectionCard = ({ collection }: Props) => {
         <div className=''>
             <Link href={`/nft/${collection.slug.current}`}>
                 <div className='flex flex-col items-center cursor-pointer transition-all duration-200 hover:scale-105'>
-                    <div className='bg-gradient-to-br from-black to-white p-1 md:p-1 rounded-xl'>
+                    <div className='bg-gradient-to-br from-cyan-500 to-blue-500 p-1 md:p-1 rounded-xl'>
                         <img className='h-60 w-50 sm:h-96 sm:w-65 rounded-2xl object-cover'
                             src={urlFor(collection.mainImage).url()}
                             alt='' />

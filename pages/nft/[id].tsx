@@ -1,36 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
-import { GetServerSideProps, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { sanityClient, urlFor } from '../../sanity'
 import { useTypewriter } from "react-simple-typewriter"
-import { Collection, Social } from '../../typings'
+import { Collection } from '../../typings'
 import Link from 'next/link'
 import { AptosClient, TokenClient } from "aptos"
 import toast, { Toaster } from 'react-hot-toast'
 import Head from 'next/head'
 import Countdown from '../../components/Countdown/index';
 import { SocialIcon } from "react-social-icons"
-import { fetchSocials } from '../../utils/fetchSocials'
-import { getStaticProps } from '../index';
 
 
 
 type Props = {
     collection: Collection
-    // socials: Social[]
 }
 
 const NFTDropPage = ({ collection, }: Props) => {
     const [address, setAddress] = useState<String | null>(null)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
     const [mintedAmount, setMintedAmount] = useState<number>(0)
-    const [totalSupply, setTotalSupply] = useState<number>(5)
+    const [totalSupply, setTotalSupply] = useState<number>(0)
     const [amountLoading, setAmountLoading] = useState<boolean>(true)
     const [minted, setMinted] = useState<boolean>(false)
     const [minting, setMinting] = useState<boolean>(false)
     const [amountToMint, setAmountToMint] = useState<number>(1)
     const [maxMintPerWallet, setMaxMintPerWallet] = useState<number>(1)
     const [thisUserMinted, setThisUserMinted] = useState<number>(0)
+    const [txHash, setTxHash] = useState<string>()
 
     const [text, count] = useTypewriter({
         words: [
@@ -50,17 +48,25 @@ const NFTDropPage = ({ collection, }: Props) => {
     }, [address])
 
     useEffect(() => {
+        if (!(maxMintPerWallet === 1)) {
+            return
+        }
+        //check if minted
+        //setMinted(minted)
+    }, [txHash])
+
+    useEffect(() => {
         const fetchNFTDropData = async () => {
             setAmountLoading(true)
             // const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
             const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
             const tokenClient = new TokenClient(client);
             // const creator = `${collection.creator}`
-            const creator = "0xc931187f52e9aac219517880805f64eb4243dbe291fc150a9af5548714fbf202"
+            const resourceAccount = "0x125f95e8c69d0ac652a031bda65873431319ffe011d3c4db261dc9868ae6514c"
 
             // const collectionName = `${collection.nftCollectionName}`
             const collectionName = "Aptos Acid Apes 2"
-            const data = await tokenClient.getCollectionData(creator, collectionName)
+            const data = await tokenClient.getCollectionData(resourceAccount, collectionName)
             const { description, maximum, name, supply, uri } = data
 
             setMintedAmount(supply)
@@ -134,9 +140,11 @@ const NFTDropPage = ({ collection, }: Props) => {
         };
         const transaction = await window.martian.generateTransaction(address, payload);
         const txnHash = await window.martian.signAndSubmitTransaction(transaction);
+
+        setTxHash(txnHash)
+
         console.log(txnHash);
     }
-
 
     return (
         <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 overflow-y-scroll'>
@@ -174,13 +182,12 @@ const NFTDropPage = ({ collection, }: Props) => {
                         You're logged in with {address.substring(0, 5)}...{address.substring(address.length - 5, address.length)}
                     </p>
                 )}
-                {/* <hr className='my-1 border' /> */}
 
                 <div className='flex flex-col items-center justify-center py-10 lg:min-h-screen lg:pb-80'>
-                    <div className='bg-gradient-to-br from-blue-400 to-purple-600 p-1 md:p-2 rounded-xl'>
+                    <div className='bg-gradient-to-br from-blue-800 to-white p-1 md:p-2 rounded-xl'>
                         <img
                             className='w-44 rounded-xl object-cover lg:h-96 lg:w-72'
-                            src={urlFor(collection.previewImage).url()} />
+                            src={urlFor(collection?.previewImage).url()} />
                     </div>
                     <motion.div
                         initial={{
@@ -196,21 +203,20 @@ const NFTDropPage = ({ collection, }: Props) => {
                         transition={{
                             duration: 1.5,
                         }}
-                        className="flex flex-row items-center"
+                        className="flex flex-row items-center py-3"
                     >
                         {/** Social icon */}
                         {collection.socials?.map((social) => (
                             <SocialIcon
-                                key={social.title}
-                                url={social.url}
+                                url={social}
                                 fgColor="gray"
                                 bgColor="transparent"
                             />
                         ))}
                     </motion.div>
-                    <div className='text-center p-5 space-y-2'>
-                        <h1 className=' text-4xl font-bold text-white'>{collection.nftCollectionName}</h1>
-                        <h2 className='text-xl text-gray-300'>{collection.description}</h2>
+                    <div className='text-center p-2 lg:p-3 space-y-2'>
+                        <h1 className=' text-4xl font-bold text-white'>{collection?.title}</h1>
+                        <h2 className='text-xl text-gray-300'>{collection?.description}</h2>
                     </div>
                 </div>
             </div>
@@ -221,53 +227,34 @@ const NFTDropPage = ({ collection, }: Props) => {
                 <div className='text-lg text-white flex justify-center text-center'>
                     Minting Starts At:
                 </div>
-                <div className='text-white text-2xl flex justify-center'>{new Date(collection.mintStartTime).toDateString()}</div>
+                <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintStartTime).toDateString()}</div>
                 <div className='flex py-5 justify-center'>
-                    <Countdown mintStartTime={collection.mintStartTime} />
+                    <Countdown mintStartTime={collection?.mintStartTime} />
                 </div>
                 {/* Content */}
                 <div className='flex flex-2 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0 py-2'>
                     <img className='w-80 object-cover lg:h-100 rounded-xl'
-                        src={urlFor(collection.mainImage).url()}
+                        src={urlFor(collection?.mainImage).url()}
                     />
                     <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold py-5 text-[#ecdcdc]'>
                         {text}
                     </h1>
                     {/* <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p> */}
-                    <h2 className="animate-pulse text-sm uppercase text-white pb-2 tracking-[5px] md:tracking-[5px] py-5">
+                    <h2 className=" text-sm uppercase text-white pb-2 tracking-[5px] md:tracking-[5px] py-5">
                         {amountLoading ? (
                             <div className='justify-center items-center'>
-                                <h1>&nbsp;Loading supply count...</h1>
-                                {/* <div className='flex justify-center'>
-                                    <img
-                                        className='h-40 w-40 object-contain'
-                                        src='https://cdn.hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif'
-                                    />
-                                </div> */}
+                                <h1 className='animate-pulse'>&nbsp;Loading supply count...</h1>
                             </div>
-
                         ) : (
                             <div>&nbsp; {mintedAmount}/{totalSupply}</div>
                         )}
                     </h2>
+
                     {/* Mint Button */}
-                    {!(maxMintPerWallet == 1) ? (
-                        <div>
-                            <input
-                                type="number"
-                                onChange={handleChange}
-                                value={amountToMint}
-                                placeholder='Amount to mint'
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-50 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
-                            />
-                            <button onClick={handleMint}
-                                className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold "
-                            >Mint 1 for {collection.price} APT</button>
-                        </div>
-                    ) : (
-                        <div className='py-0 w-full'>
-                            {minted ? (<div className='text-black font-bold text-xl text-center'>
-                                You have minted one!
+                    {(!txHash) && ((maxMintPerWallet == 1) ? (
+                        <div className='w-full'>
+                            {minted ? (<div className='text-white font-bold text-xl text-center py-2'>
+                                &nbsp;You have minted one!
                             </div>) : (<motion.div
                                 whileTap={{
                                     scale: 0.8,
@@ -277,10 +264,30 @@ const NFTDropPage = ({ collection, }: Props) => {
                                 <button
                                     onClick={handleMint}
                                     className='h-16 bg-[#0e3839] w-3/5 text-white rounded-full mt-10 font-bold '>
-                                    Mint For {collection.price} APT
+                                    Mint 1 For {collection?.price} APT
                                 </button>
                             </motion.div>)}
                         </div>
+                    ) : (
+                        <div className='py-5 truncate space-x-2'>
+                            <input
+                                type="number"
+                                onChange={handleChange}
+                                value={amountToMint}
+                                placeholder='Amount to mint'
+                                className="text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
+                            />
+                            <button onClick={handleMint}
+                                className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold"
+                            >Mint {amountToMint} for {collection?.price * amountToMint} APT</button>
+                        </div>
+                    ))}
+                    {(txHash) && (
+                        <a target='_blank' href={`https://explorer.aptoslabs.com/txn/${txHash}`} >
+                            <div className='text-white animate-pulse py-5'>
+                                &nbsp;Click to check your transaction
+                            </div>
+                        </a>
                     )}
                 </div>
 
@@ -337,7 +344,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     return {
         props: {
             collection,
-            // socials
         }
     }
 }

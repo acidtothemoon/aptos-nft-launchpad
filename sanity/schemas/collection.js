@@ -81,7 +81,7 @@ export default {
             name: 'socials',
             title: 'Socials',
             type: 'array',
-            of: [{ type: 'reference', to: { type: "social" } }],
-        },
+            of: [{ type: 'string' }]
+        }
     ]
 }

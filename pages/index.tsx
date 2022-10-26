@@ -18,13 +18,13 @@ const Home = ({ collections }: Props) => {
         <title>Aptos NFT Launchpad</title>
       </Head>
 
-      <h1 className='px-10 md:px-20 mb-10 text-3xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#11bbca] to-[#036e30] '>
+      <h1 className='px-6 md:px-20 mb-10 text-3xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#11bbca] to-[#036e30] '>
         <span className='font-extrabold '>
           Aptos
         </span>
         {' '} NFT Launchpad
       </h1>
-      <div className=' px-10'>
+      <div className='px-10'>
         <main className='bg-gradient-to-r from-[#051818] to-[#0e3839] p-10 shadow-xl shadow-[#0e3839]/80 rounded-lg'>
           <div className='grid space-x-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 space-y-15'>
             {collections?.sort((a, b) => (a.mintStartTime ? (a.mintStartTime) : "2050-02-12T09:15:00Z").localeCompare((b.mintStartTime ? (b.mintStartTime) : ("2050-02-12T09:15:00Z"))))
@@ -36,21 +36,31 @@ const Home = ({ collections }: Props) => {
           </div>
         </main>
       </div>
-      <div className='flex justify-center py-5 sm:py-20'>
+      <div className='flex justify-center py-10 sm:py-20'>
         <a target="_blank" href="https://twitter.com/acidmonkeys">
           <h3 className=' text-white text-end'>
             Powered by Acid Labs
           </h3>
         </a>
       </div>
-      {/* <div className='flex justify-center absolute inset-x-0 bottom-0'>
-        <h3 className=' py-10 text-white font-bold'>Powered By Acid Labs</h3>
-      </div> */}
     </div>
   )
 }
 
 export default Home
+
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const collections: Collection[] = await fetchCollections()
+
+  return {
+    props: {
+      collections,
+    },
+    revalidate: 10,
+  }
+}
+
 
 // export const getServerSideProps: GetServerSideProps = async () => {
 //   console.log("start querying")
@@ -92,14 +102,3 @@ export default Home
 //     },
 //   }
 // }
-
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const collections: Collection[] = await fetchCollections()
-
-  return {
-    props: {
-      collections,
-    },
-    revalidate: 10,
-  }
-}
