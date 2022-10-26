@@ -21,7 +21,6 @@ const Countdown = ({ countEnd, setCountEnd, mintStartTime, mintEndTime, countDay
     // const mintingEndTime = new Date(mintEndTime)
 
     const startTimer = () => {
-        console.log(mintStartTime)
         // console.log(mintingStartTime.getTimezoneOffset())
         const startCountDownDate = Date.parse(mintStartTime)
         const EndCountDownDate = Date.parse(mintEndTime)

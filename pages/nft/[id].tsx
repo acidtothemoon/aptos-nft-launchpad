@@ -11,8 +11,6 @@ import Head from 'next/head'
 import Countdown from '../../components/Countdown/index';
 import { SocialIcon } from "react-social-icons"
 
-
-
 type Props = {
     collection: Collection
 }
@@ -316,7 +314,7 @@ const NFTDropPage = ({ collection, }: Props) => {
 
 
                     {(availableToMintAmount === 0) ? (
-                        <div className='py-2 text-white font-semibold text-lg'>
+                        <div className='py-2 text-white font-semibold text-lg sm:py-5'>
                             Sorry, You're not able to mint
                         </div>
                     ) : (
