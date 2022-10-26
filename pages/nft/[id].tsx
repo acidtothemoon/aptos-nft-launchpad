@@ -93,7 +93,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                     }
                 );
                 // console.log(max_supply_per_user, spw_handle, mpu_handle);
-                console.log("price", mint_fee_per_mille)
+                // console.log("price", mint_fee_per_mille)
                 setMintFee(mint_fee_per_mille / 100000000);
 
                 const user_max_supply = await client.getTableItem(
