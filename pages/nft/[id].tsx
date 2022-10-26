@@ -152,6 +152,11 @@ const NFTDropPage = ({ collection, }: Props) => {
             toast.error("Connect wallet first!")
             return
         }
+        if (amountToMint < 1) {
+            toast.error("Next time I'll burn your token")
+            setAmountToMint(1)
+            return
+        }
         if (amountToMint > availableToMintAmount) {
             toast.error(`You can only mint ${availableToMintAmount} more!`)
             setAmountToMint(availableToMintAmount)
@@ -329,41 +334,41 @@ const NFTDropPage = ({ collection, }: Props) => {
                             Sorry, You're not able to mint
                         </div>
                     ) : (
-                        (availableToMintAmount === 1) ? (
-                            <div className='w-full'>
-                                <div className='text-white py-3 font-semibold text-lg'>You can mint 1 !</div>
-                                {<motion.div
-                                    whileTap={{
-                                        scale: 0.8,
-                                        rotate: 0,
-                                        borderRadius: "100%"
-                                    }}>
-                                    <button
-                                        onClick={handleMint}
-                                        className='h-16 bg-[#0e3839] w-3/5 rounded-full mt-10 '>
-                                        <p className='text-white font-semibold tracking-[5px] animate-pulse'>
-                                            Mint 1 For {collection?.price} APT
-                                        </p>
-                                    </button>
-                                </motion.div>}
+                        // (availableToMintAmount === 1) ? (
+                        //     <div className='w-full'>
+                        //         <div className='text-white py-3 font-semibold text-lg'>You can mint 1 !</div>
+                        //         {<motion.div
+                        //             whileTap={{
+                        //                 scale: 0.8,
+                        //                 rotate: 0,
+                        //                 borderRadius: "100%"
+                        //             }}>
+                        //             <button
+                        //                 onClick={handleMint}
+                        //                 className='h-16 bg-[#0e3839] w-3/5 rounded-full mt-10 '>
+                        //                 <p className='text-white font-semibold tracking-[5px] animate-pulse'>
+                        //                     Mint 1 For {collection?.price} APT
+                        //                 </p>
+                        //             </button>
+                        //         </motion.div>}
+                        //     </div>
+                        // ) : (
+                        <div>
+                            <div className='text-white py-3 font-semibold text-lg'>You can mint {availableToMintAmount} !</div>
+                            <div className='py-5 truncate space-x-2'>
+                                <input
+                                    type="number"
+                                    onChange={handleChange}
+                                    value={amountToMint}
+                                    placeholder='Amount to mint'
+                                    className="text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
+                                />
+                                <button onClick={handleMint}
+                                    className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold"
+                                >Mint {amountToMint ? amountToMint : 1} for {collection?.price * amountToMint ? collection?.price * amountToMint : collection?.price} APT</button>
                             </div>
-                        ) : (
-                            <div>
-                                <div className='text-white py-3 font-semibold text-lg'>You can mint {availableToMintAmount} !</div>
-                                <div className='py-5 truncate space-x-2'>
-                                    <input
-                                        type="number"
-                                        onChange={handleChange}
-                                        value={amountToMint}
-                                        placeholder='Amount to mint'
-                                        className="text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 items-center"
-                                    />
-                                    <button onClick={handleMint}
-                                        className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold"
-                                    >Mint {amountToMint ? amountToMint : 1} for {collection?.price * amountToMint ? collection?.price * amountToMint : collection?.price} APT</button>
-                                </div>
-                            </div>
-                        )
+                        </div>
+                        // )
                     )}
 
                     {/* If TxHash */}
