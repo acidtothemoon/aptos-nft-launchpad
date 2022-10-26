@@ -44,7 +44,6 @@ const Home = ({ collections }: Props) => {
                 </motion.div>
               ))}
           </div>
-
         </main>
       </div>
       <div className='flex justify-center py-10 sm:py-20'>
