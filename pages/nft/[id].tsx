@@ -241,7 +241,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                         transition={{
                             duration: 1.5,
                         }}
-                        className="flex flex-row items-center py-3"
+                        className="flex flex-row items-center py-3 lg:py-5"
                     >
                         {/** Social icon */}
                         {collection.socials?.map((social) => (
