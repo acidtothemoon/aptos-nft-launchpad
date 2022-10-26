@@ -19,10 +19,12 @@ const Home = ({ collections }: Props) => {
       </Head>
 
       <h1 className='px-6 md:px-20 mb-10 text-3xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#11bbca] to-[#036e30] '>
-        <span className='font-extrabold '>
-        Acid Labs Aptos
-        </span>
-        {' '} NFT Launchpad
+        <p className='font-extrabold '>
+          Acid Labs
+        </p>
+        <p>
+          Aptos NFT Launchpad
+        </p>
       </h1>
       <div className='px-10'>
         <main className='bg-gradient-to-r from-[#051818] to-[#0e3839] p-10 shadow-xl shadow-[#0e3839]/80 rounded-lg'>

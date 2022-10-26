@@ -24,8 +24,6 @@ const NFTDropPage = ({ collection, }: Props) => {
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [amountLoading, setAmountLoading] = useState<boolean>(true)
     const [amountToMint, setAmountToMint] = useState<number>(1)
-    const [maxMintPerWallet, setMaxMintPerWallet] = useState<number>(1)
-    const [thisUserMinted, setThisUserMinted] = useState<number>(0)
     const [txHash, setTxHash] = useState<string>()
     const [countEnd, setCountEnd] = useState<boolean>(false)
     const [availableToMintAmount, setAvailableToMintAmount] = useState<number>(0)
@@ -47,7 +45,6 @@ const NFTDropPage = ({ collection, }: Props) => {
             return
         }
         connectWallet()
-        setMaxMintPerWallet(collection.maxMintPerWallet)
 
     }, [address])
 
@@ -75,7 +72,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                     collection.collection_configs,
                     {
                         key_type: "0x1::string::String",
-                        value_type: "0xdf5c814388f4162f353e14f6123fcba8f39a958e4a2640e38e9e2c7cdfd2ac1d::candy_machine_v2::CollectionConfig",
+                        value_type: "0x5ac985f1fe40c5121eb33699952ce8a79b1d1cb7438709dbd1da8e840a04fbee::candy_machine_v2::CollectionConfig",
                         key: collectionName,
                     }
                 );
@@ -104,6 +101,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                     .catch(() => 0);
                 console.log("user_max_supply", user_max_supply);
                 console.log("user_minted_amount", user_minted_amount);
+                setAvailableToMintAmount(user_max_supply - user_minted_amount)
             }
         }
 
@@ -144,9 +142,9 @@ const NFTDropPage = ({ collection, }: Props) => {
             toast.error("Connect wallet first!")
             return
         }
-        if (amountToMint + thisUserMinted > maxMintPerWallet) {
-            toast.error(`You can only mint ${maxMintPerWallet - thisUserMinted} more!`)
-            setAmountToMint(maxMintPerWallet - thisUserMinted)
+        if (amountToMint > availableToMintAmount) {
+            toast.error(`You can only mint ${availableToMintAmount} more!`)
+            setAmountToMint(availableToMintAmount)
             return
         }
         if (amountLoading) {
@@ -165,7 +163,7 @@ const NFTDropPage = ({ collection, }: Props) => {
         // Generate a transaction
         const payload = {
             type: "entry_function_payload",
-            function: "0xdf5c814388f4162f353e14f6123fcba8f39a958e4a2640e38e9e2c7cdfd2ac1d::candy_machine_v2::mint_tokens",
+            function: "0x5ac985f1fe40c5121eb33699952ce8a79b1d1cb7438709dbd1da8e840a04fbee::candy_machine_v2::mint_tokens",
             type_arguments: [],
             arguments: [
                 `${collection.creator.address}`,
@@ -192,14 +190,17 @@ const NFTDropPage = ({ collection, }: Props) => {
             {/* Left */}
             <div className='lg:col-span-4 bg-gradient-to-r from-[#051818] to-[#0e3839] pr-5 pl-5'>
                 {/* Header */}
-                <header className='flex flex-1 items-center justify-between text-white pt-8 '>
+                <header className='flex items-center justify-between text-white pt-8 '>
                     <Link href={'/'}>
-                        <h1 className='w-52 cursor-pointer text-xl font-bold sm:w-80 text-transparent text-white md:text-5xl' >
-                            <span className='font-extrabold '>
-                                Acid Labs Aptos
-                            </span>
-                            {' '} NFT Launchpad
-                        </h1>
+                        <div className='cursor-pointer md:text-5xl p-5'>
+                            <h1 className='w-52 text-2xl font-bold sm:w-400 text-white md:text-5xl' >
+                                Acid Labs
+                            </h1>
+                            <p className='flex text-md text-lg'>
+                                Aptos NFT Launchpad
+                            </p>
+                        </div>
+
                     </Link>
                     <motion.div
                         whileTap={{
