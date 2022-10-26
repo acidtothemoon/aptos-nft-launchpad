@@ -73,7 +73,13 @@ const NFTDropPage = ({ collection, }: Props) => {
             );
 
             setMintedAmount(minted_supply)
-            setTotalSupply(maximum)
+            if (collection.nftCollectionName == "Aptos Polar Bears") {
+                setTotalSupply(999)
+            } else {
+                setTotalSupply(maximum)
+
+            }
+
             setAmountLoading(false)
 
             if (!address) {
@@ -300,7 +306,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                             <div className='text-lg text-white flex justify-center text-center text-semibold'>
                                 Minting Ends In
                             </div>
-                            <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintEndTime).toDateString()}</div>
+                            {/* <div className='text-white text-2xl flex justify-center py-2'>{new Date(collection?.mintEndTime).toDateString()}</div> */}
                         </div>
                     )}
 
@@ -415,7 +421,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 _id,
                 title,
                 resourceAccount,
-                price,
                 collection_configs,
                 mintStartTime,
                 mintEndTime,

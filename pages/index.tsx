@@ -78,7 +78,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     _id,
     title,
     address,
-    price,
     description,
     mintStartTime,
     mintEndTime,
