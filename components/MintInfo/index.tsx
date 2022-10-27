@@ -19,14 +19,10 @@ interface Props {
     setTxHash: Function
     txHash?: string | null
     mintFee: number
-    countDays: number
-    countHours: number
-    countMinutes: number
-    countSeconds: number
     userAlreadyMinted: number
 }
 
-const MintInfo = ({ userAlreadyMinted, countDays, countHours, countMinutes, countSeconds, collection, amountLoading, mintedAmount, totalSupply, availableMintChecking, availableToMintAmount, address, setTxHash, txHash, mintFee }: Props) => {
+const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, totalSupply, availableMintChecking, availableToMintAmount, address, setTxHash, txHash, mintFee }: Props) => {
     const [amountToMint, setAmountToMint] = useState<number>(1)
 
     const [text, count] = useTypewriter({
@@ -64,10 +60,7 @@ const MintInfo = ({ userAlreadyMinted, countDays, countHours, countMinutes, coun
             toast.error("Minted out")
             return
         }
-        if (countDays === 0 && countHours === 0 && countMinutes === 0 && countSeconds === 0) {
-            toast.error("Mint is over")
-            return
-        }
+
 
         // Generate a transaction
         const payload = {

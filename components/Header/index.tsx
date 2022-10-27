@@ -11,8 +11,6 @@ interface Props {
 }
 
 const Header = ({ isWalletConnected, address, disconnect, connectWallet }: Props) => {
-
-
     return (
         <header className='flex items-center justify-between text-white pt-8 '>
             <Link href={'/'}>
@@ -36,8 +34,15 @@ const Header = ({ isWalletConnected, address, disconnect, connectWallet }: Props
                 >
                     <button onClick={() => (isWalletConnected ? disconnect() : connectWallet())}
                         className='rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
-                        {isWalletConnected ? "Disconnect" : "Connect"}
+                        {connectWallet ? "Disconnect" : "Connect"}
                     </button>
+                    {/* {connected ? (
+                        <button
+                            onClick={connect(walletName)}>Connect</button>)
+                        : (<button
+                            onClick={disconnect(walletName)}>Disconnect</button>)
+                    } */}
+
                 </motion.div>
                 {address ? (
                     <p className='text-right py-1 text-sm text-[#52dc82] font-semibold'>

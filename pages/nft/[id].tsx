@@ -10,11 +10,12 @@ import Header from '../../components/Header'
 import ProjectInfo from '../../components/ProjectInfo'
 import MintInfo from '../../components/MintInfo'
 
+
 type Props = {
     collection: Collection
 }
 
-const NFTDropPage = ({ collection, }: Props) => {
+const NFTDropPage = ({ collection }: Props) => {
     const [address, setAddress] = useState<string | null>(null)
     const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
     const [mintedAmount, setMintedAmount] = useState<number>(0)
@@ -234,10 +235,6 @@ const NFTDropPage = ({ collection, }: Props) => {
                     address={address} setTxHash={setTxHash}
                     txHash={txHash}
                     mintFee={mintFee}
-                    countDays={countDays}
-                    countHours={countHours}
-                    countMinutes={countMinutes}
-                    countSeconds={countSeconds}
                     userAlreadyMinted={userAlreadyMinted}
                 />
             </div>
