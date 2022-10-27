@@ -40,7 +40,6 @@ const NFTDropPage = ({ collection }: Props) => {
             return
         }
         connectWallet()
-
     }, [address])
 
     useEffect(() => {
@@ -150,9 +149,6 @@ const NFTDropPage = ({ collection }: Props) => {
         setAddress(null)
     }
 
-    // Auth
-
-
     return (
         <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 overflow-y-scroll'>
             <Head>
@@ -178,7 +174,7 @@ const NFTDropPage = ({ collection }: Props) => {
             <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-black'>
                 {/* Countdown */}
                 <div>
-                    {
+                    {/* {
                         (!presaleStage && !publicStage) ? (
                             <div className='text-lg text-white flex justify-center text-center text-semibold'>
                                 Presale Starts In
@@ -203,7 +199,7 @@ const NFTDropPage = ({ collection }: Props) => {
                                 Public Starts!
                             </div>
                         ) : null
-                    }
+                    } */}
 
 
                     <div className='flex py-10 justify-center'>

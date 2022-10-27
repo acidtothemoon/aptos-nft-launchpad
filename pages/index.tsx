@@ -45,9 +45,12 @@ const Home = ({ collections }: Props) => {
           </div>
         </main>
       </div>
-      <div className='flex justify-center py-10 sm:py-20'>
+      <div className='justify-center py-10 sm:py-20 text-center'>
+        <h3 className='text-white text-semibold'>
+          We do no provide doxxing service at the moment, we act as a Launchpad only servicing. Please DYOR and mint with caution
+        </h3>
         <a target="_blank" href="https://twitter.com/acidmonkeys">
-          <h3 className=' text-white text-end'>
+          <h3 className='text-white py-10'>
             Powered by Acid Labs
           </h3>
         </a>
