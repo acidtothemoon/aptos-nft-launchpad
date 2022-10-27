@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
-import { sanityClient, urlFor } from '../../sanity'
+import { sanityClient } from '../../sanity'
 import { Collection } from '../../typings'
 import { AptosClient, TokenClient } from "aptos"
 import { Toaster } from 'react-hot-toast'
@@ -32,6 +32,7 @@ const NFTDropPage = ({ collection, }: Props) => {
     const [countSeconds, setCountSeconds] = useState<number>(0)
     const [presaleStage, setPresaleStage] = useState<boolean>(false)
     const [publicStage, setPublicStage] = useState<boolean>(false)
+    const [userAlreadyMinted, setUserAlreadyMinted] = useState<number>(0)
 
     useEffect(() => {
         if (!window.martian) {
@@ -122,6 +123,7 @@ const NFTDropPage = ({ collection, }: Props) => {
 
                 setAvailableToMintAmount(user_max_supply - user_minted_amount)
                 setAvaiableMintChecking(false)
+                setUserAlreadyMinted(user_minted_amount)
             }
         }
 
@@ -236,6 +238,7 @@ const NFTDropPage = ({ collection, }: Props) => {
                     countHours={countHours}
                     countMinutes={countMinutes}
                     countSeconds={countSeconds}
+                    userAlreadyMinted={userAlreadyMinted}
                 />
             </div>
         </div>

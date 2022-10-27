@@ -23,10 +23,10 @@ interface Props {
     countHours: number
     countMinutes: number
     countSeconds: number
-
+    userAlreadyMinted: number
 }
 
-const MintInfo = ({ countDays, countHours, countMinutes, countSeconds, collection, amountLoading, mintedAmount, totalSupply, availableMintChecking, availableToMintAmount, address, setTxHash, txHash, mintFee }: Props) => {
+const MintInfo = ({ userAlreadyMinted, countDays, countHours, countMinutes, countSeconds, collection, amountLoading, mintedAmount, totalSupply, availableMintChecking, availableToMintAmount, address, setTxHash, txHash, mintFee }: Props) => {
     const [amountToMint, setAmountToMint] = useState<number>(1)
 
     const [text, count] = useTypewriter({
@@ -112,7 +112,7 @@ const MintInfo = ({ countDays, countHours, countMinutes, countSeconds, collectio
                     Checking your status...
                 </div>) : ((availableToMintAmount === 0) ? (
                     <div className='py-2 text-white font-semibold text-lg sm:py-5'>
-                        Sorry, You're not able to mint
+                        You already minted {userAlreadyMinted}
                     </div>
                 ) : (
                     <div>

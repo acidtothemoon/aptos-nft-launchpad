@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { useEffect, Fragment } from 'react'
 
 type Props = {
     presaleStartTime: number

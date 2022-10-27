@@ -2,7 +2,6 @@ import type { GetServerSideProps, GetStaticProps } from 'next'
 import Head from 'next/head'
 import CollectionCard from '../components/CollectionCard'
 import { sanityClient } from '../sanity'
-import { fetchCollections } from '../utils/fetchCollections'
 import { Collection } from '../typings';
 import { motion } from 'framer-motion';
 
