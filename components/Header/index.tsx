@@ -34,7 +34,7 @@ const Header = ({ isWalletConnected, address, disconnect, connectWallet }: Props
                 >
                     <button onClick={() => (isWalletConnected ? disconnect() : connectWallet())}
                         className='rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
-                        {connectWallet ? "Disconnect" : "Connect"}
+                        {isWalletConnected ? "Disconnect" : "Connect"}
                     </button>
                     {/* {connected ? (
                         <button
