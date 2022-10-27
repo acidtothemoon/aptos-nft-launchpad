@@ -90,7 +90,7 @@ const NFTDropPage = ({ collection }: Props) => {
                     collection.collection_configs,
                     {
                         key_type: "0x1::string::String",
-                        value_type: "0x4b8cec33043700c2e159b55d39dff908c28f21ebaf0d64b0539a465721021a3a::candy_machine_v2::CollectionConfig",
+                        value_type: `${collection.moduleId}::CollectionConfig`,
                         key: collectionName,
                     }
                 );
@@ -249,6 +249,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 resourceAccount,
                 collection_configs,
                 mintStartTime,
+                moduleId,
                 socials,
                 description,
                 nftCollectionName,

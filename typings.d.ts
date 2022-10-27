@@ -29,7 +29,7 @@ export interface Collection {
     description: string
     price: number
     mintStartTime: string
-    mintEndTime: string
+    moduleId: string
     collection_configs: string
     socials: string[]
     maxMintPerWallet: number

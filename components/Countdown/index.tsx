@@ -54,7 +54,7 @@ const Countdown = ({ setPresaleStage, setPublicStage, presaleStartTime, publicSt
                 setPublicStage(true)
                 clearInterval(interval)
             }
-        })
+        }, 1000)
     }
 
     useEffect(() => {

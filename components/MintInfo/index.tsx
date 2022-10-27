@@ -65,7 +65,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
         // Generate a transaction
         const payload = {
             type: "entry_function_payload",
-            function: "0x4b8cec33043700c2e159b55d39dff908c28f21ebaf0d64b0539a465721021a3a::candy_machine_v2::mint_tokens",
+            function: `${collection.moduleId}::mint_tokens`,
             type_arguments: [],
             arguments: [
                 `${collection.creator.address}`,

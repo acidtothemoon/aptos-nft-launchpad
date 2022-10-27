@@ -15,6 +15,11 @@ export default {
             type: 'string',
         },
         {
+            name: 'moduleId',
+            title: 'Module Id',
+            type: 'string',
+        },
+        {
             name: 'nftCollectionName',
             title: 'Name of NFT Collection',
             type: 'string',
