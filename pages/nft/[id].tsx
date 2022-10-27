@@ -250,6 +250,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 title,
                 resourceAccount,
                 collection_configs,
+                mintStartTime,
                 socials,
                 description,
                 nftCollectionName,

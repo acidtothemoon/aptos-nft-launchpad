@@ -80,7 +80,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     address,
     description,
     mintStartTime,
-    mintEndTime,
     nftCollectionName,
     mainImage{
       asset
