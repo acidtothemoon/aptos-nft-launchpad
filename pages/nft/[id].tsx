@@ -25,7 +25,8 @@ const NFTDropPage = ({ collection, }: Props) => {
     const [countEnd, setCountEnd] = useState<boolean>(false)
     const [availableToMintAmount, setAvailableToMintAmount] = useState<number>(0)
     const [availableMintChecking, setAvaiableMintChecking] = useState<boolean>(true)
-
+    const [publicStartTime, setPublicStartTime] = useState<number>(new Date().valueOf())
+    const [presaleStartTime, setPresaleStartTime] = useState<number>(new Date().valueOf()) 
     const [countDays, setCountDays] = useState<number>(0)
     const [countHours, setCountHours] = useState<number>(0)
     const [countMinutes, setCountMinutes] = useState<number>(0)
@@ -68,7 +69,6 @@ const NFTDropPage = ({ collection, }: Props) => {
                 setTotalSupply(700)
             } else {
                 setTotalSupply(maximum)
-
             }
 
             setAmountLoading(false)
@@ -81,6 +81,8 @@ const NFTDropPage = ({ collection, }: Props) => {
                     supply_per_wl: { handle: spw_handle },
                     mints_per_user: { handle: mpu_handle },
                     mint_fee_per_mille,
+                    presale_mint_time,
+                    public_mint_time,
                 } = await client.getTableItem(
                     collection.collection_configs,
                     {
@@ -92,7 +94,11 @@ const NFTDropPage = ({ collection, }: Props) => {
                 // console.log(max_supply_per_user, spw_handle, mpu_handle);
                 // console.log("price", mint_fee_per_mille)
                 setMintFee(mint_fee_per_mille / 100000000);
-
+                // console.log("presale_mint_time", presale_mint_time);
+                // console.log("public_mint_time", public_mint_time);
+                setPresaleStartTime(presale_mint_time*1000);
+                setPublicStartTime(public_mint_time*1000);
+                
                 const user_max_supply = await client.getTableItem(
                     spw_handle,
                     {
@@ -180,7 +186,21 @@ const NFTDropPage = ({ collection, }: Props) => {
                     )}
 
                     <div className='flex py-10 justify-center'>
-                        <Countdown countEnd={countEnd} setCountEnd={setCountEnd} mintStartTime={collection?.mintStartTime} mintEndTime={collection?.mintEndTime} countDays={countDays} countHours={countHours} countMinutes={countMinutes} countSeconds={countSeconds} setCountDays={setCountDays} setCountHours={setCountHours} setCountMinutes={setCountMinutes} setCountSeconds={setCountSeconds} />
+                        <Countdown
+                            countEnd={countEnd}
+                            setCountEnd={setCountEnd}
+                            presaleStartTime={presaleStartTime}
+                            publicStartTime={publicStartTime}
+                            publicEndTimeString={collection?.mintEndTime}
+                            countDays={countDays}
+                            countHours={countHours}
+                            countMinutes={countMinutes}
+                            countSeconds={countSeconds}
+                            setCountDays={setCountDays}
+                            setCountHours={setCountHours}
+                            setCountMinutes={setCountMinutes}
+                            setCountSeconds={setCountSeconds}
+                        />
                     </div>
                 </div>
 
@@ -199,7 +219,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 title,
                 resourceAccount,
                 collection_configs,
-                mintStartTime,
                 mintEndTime,
                 socials,
                 description,

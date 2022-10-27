@@ -1,8 +1,9 @@
 import React, { useEffect, useState, Fragment } from 'react'
 
 type Props = {
-    mintStartTime: string
-    mintEndTime: string
+    presaleStartTime: number
+    publicStartTime: number
+    publicEndTimeString: string
     countDays: number
     countHours: number
     countMinutes: number
@@ -15,23 +16,19 @@ type Props = {
     setCountEnd: Function
 }
 
-const Countdown = ({ countEnd, setCountEnd, mintStartTime, mintEndTime, countDays, countHours, countMinutes, countSeconds, setCountDays, setCountHours, setCountMinutes, setCountSeconds }: Props) => {
+const Countdown = ({ countEnd, setCountEnd, presaleStartTime, publicStartTime, publicEndTimeString, countDays, countHours, countMinutes, countSeconds, setCountDays, setCountHours, setCountMinutes, setCountSeconds }: Props) => {
 
     // const mintingStartTime = new Date(mintStartTime)
     // const mintingEndTime = new Date(mintEndTime)
 
     const startTimer = () => {
         // console.log(mintingStartTime.getTimezoneOffset())
-        const startCountDownDate = Date.parse(mintStartTime)
-        const EndCountDownDate = Date.parse(mintEndTime)
+        const publicEndTime = Date.parse(publicEndTimeString)
 
         const interval = setInterval(() => {
             const now = new Date().getTime()
-            // console.log(now)
-            // console.log(startCountDownDate)
-            const startDistance = startCountDownDate - now
-            // console.log(startDistance)
-            const endDistance = EndCountDownDate - now
+            const startDistance = presaleStartTime - now
+            const endDistance = publicEndTime - now
 
             if (startDistance > 0) {
                 const startDays = Math.floor(startDistance / 86400000)
