@@ -29,7 +29,7 @@ const Countdown = ({ setPresaleStage, setPublicStage, presaleStartTime, publicSt
             const publicStartsIn = publicStartTime - now
 
             if (presaleStartsIn > 0) {
-                // console.log(`PresaleStartsIn: ${presaleStartsIn}`)
+                // console.log("pre presale stage")
                 const startDays = Math.floor(presaleStartsIn / 86400000)
                 const startHours = Math.floor((presaleStartsIn % 86400000) / 3600000)
                 const startMinutes = Math.floor((presaleStartsIn % 3600000) / 60000)
@@ -39,6 +39,7 @@ const Countdown = ({ setPresaleStage, setPublicStage, presaleStartTime, publicSt
                 setCountMinutes(startMinutes)
                 setCountSeconds(startSeconds)
             } else if (publicStartsIn > 0) {
+                // console.log("presale stage")
                 setPresaleStage(true)
                 const startDays = Math.floor(publicStartsIn / 86400000)
                 const startHours = Math.floor((publicStartsIn % 86400000) / 3600000)
@@ -48,7 +49,8 @@ const Countdown = ({ setPresaleStage, setPublicStage, presaleStartTime, publicSt
                 setCountHours(startHours)
                 setCountMinutes(startMinutes)
                 setCountSeconds(startSeconds)
-            } else {
+            } else if (presaleStartTime > 0 && publicStartTime > 0) {
+                // console.log("public stage")
                 setPublicStage(true)
                 clearInterval(interval)
             }

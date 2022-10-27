@@ -25,8 +25,8 @@ const NFTDropPage = ({ collection }: Props) => {
     const [txHash, setTxHash] = useState<string>()
     const [availableToMintAmount, setAvailableToMintAmount] = useState<number>(0)
     const [availableMintChecking, setAvaiableMintChecking] = useState<boolean>(true)
-    const [publicStartTime, setPublicStartTime] = useState<number>(new Date().valueOf())
-    const [presaleStartTime, setPresaleStartTime] = useState<number>(new Date().valueOf())
+    const [publicStartTime, setPublicStartTime] = useState<number>(0)
+    const [presaleStartTime, setPresaleStartTime] = useState<number>(0)
     const [countDays, setCountDays] = useState<number>(0)
     const [countHours, setCountHours] = useState<number>(0)
     const [countMinutes, setCountMinutes] = useState<number>(0)
@@ -149,6 +149,8 @@ const NFTDropPage = ({ collection }: Props) => {
         setAddress(null)
     }
 
+    // Auth
+
     return (
         <div className='flex h-screen flex-col lg:grid lg:grid-cols-10 overflow-y-scroll'>
             <Head>
@@ -174,7 +176,7 @@ const NFTDropPage = ({ collection }: Props) => {
             <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-black'>
                 {/* Countdown */}
                 <div>
-                    {/* {
+                    {
                         (!presaleStage && !publicStage) ? (
                             <div className='text-lg text-white flex justify-center text-center text-semibold'>
                                 Presale Starts In
@@ -199,7 +201,7 @@ const NFTDropPage = ({ collection }: Props) => {
                                 Public Starts!
                             </div>
                         ) : null
-                    } */}
+                    }
 
 
                     <div className='flex py-10 justify-center'>
