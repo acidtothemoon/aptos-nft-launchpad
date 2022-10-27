@@ -3,7 +3,6 @@ import React, { useEffect, useState, Fragment } from 'react'
 type Props = {
     presaleStartTime: number
     publicStartTime: number
-    publicEndTimeString: string
     countDays: number
     countHours: number
     countMinutes: number
@@ -12,44 +11,44 @@ type Props = {
     setCountHours: Function
     setCountMinutes: Function
     setCountSeconds: Function
-    countEnd: boolean
-    setCountEnd: Function
+    setPresaleStage: Function
+    setPublicStage: Function
 }
 
-const Countdown = ({ countEnd, setCountEnd, presaleStartTime, publicStartTime, publicEndTimeString, countDays, countHours, countMinutes, countSeconds, setCountDays, setCountHours, setCountMinutes, setCountSeconds }: Props) => {
+const Countdown = ({ setPresaleStage, setPublicStage, presaleStartTime, publicStartTime, countDays, countHours, countMinutes, countSeconds, setCountDays, setCountHours, setCountMinutes, setCountSeconds }: Props) => {
 
     // const mintingStartTime = new Date(mintStartTime)
     // const mintingEndTime = new Date(mintEndTime)
 
     const startTimer = () => {
         // console.log(mintingStartTime.getTimezoneOffset())
-        const publicEndTime = Date.parse(publicEndTimeString)
 
         const interval = setInterval(() => {
             const now = new Date().getTime()
-            const startDistance = presaleStartTime - now
-            const endDistance = publicEndTime - now
+            const presaleStartsIn = presaleStartTime - now
+            const publicStartsIn = publicStartTime - now
 
-            if (startDistance > 0) {
-                const startDays = Math.floor(startDistance / 86400000)
-                const startHours = Math.floor((startDistance % 86400000) / 3600000)
-                const startMinutes = Math.floor((startDistance % 3600000) / 60000)
-                const startSeconds = Math.floor((startDistance % 60000) / 1000)
+            if (presaleStartsIn > 0) {
+                const startDays = Math.floor(presaleStartsIn / 86400000)
+                const startHours = Math.floor((presaleStartsIn % 86400000) / 3600000)
+                const startMinutes = Math.floor((presaleStartsIn % 3600000) / 60000)
+                const startSeconds = Math.floor((presaleStartsIn % 60000) / 1000)
                 setCountDays(startDays)
                 setCountHours(startHours)
                 setCountMinutes(startMinutes)
                 setCountSeconds(startSeconds)
-            } else if (endDistance > 0) {
-                setCountEnd(true)
-                const endDays = Math.floor(endDistance / 86400000)
-                const endHours = Math.floor((endDistance % 86400000) / 3600000)
-                const endMinutes = Math.floor((endDistance % 3600000) / 60000)
-                const endSeconds = Math.floor((endDistance % 60000) / 1000)
-                setCountDays(endDays)
-                setCountHours(endHours)
-                setCountMinutes(endMinutes)
-                setCountSeconds(endSeconds)
+            } else if (publicStartsIn > 0) {
+                setPresaleStage(true)
+                const startDays = Math.floor(publicStartsIn / 86400000)
+                const startHours = Math.floor((publicStartsIn % 86400000) / 3600000)
+                const startMinutes = Math.floor((publicStartsIn % 3600000) / 60000)
+                const startSeconds = Math.floor((publicStartsIn % 60000) / 1000)
+                setCountDays(startDays)
+                setCountHours(startHours)
+                setCountMinutes(startMinutes)
+                setCountSeconds(startSeconds)
             } else {
+                setPublicStage(true)
                 clearInterval(interval)
             }
         })

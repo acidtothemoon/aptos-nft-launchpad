@@ -10,16 +10,6 @@ export default {
             type: 'string',
         },
         {
-            name: 'mintStartTime',
-            title: 'mint start time',
-            type: 'datetime',
-        },
-        {
-            name: 'mintEndTime',
-            title: 'mint end time',
-            type: 'datetime',
-        },
-        {
             name: 'description',
             title: 'Description',
             type: 'string',
@@ -47,6 +37,11 @@ export default {
                 source: 'name',
                 maxLength: 96
             },
+        },
+        {
+            name: 'mintStartTime',
+            title: 'Mint Start Time',
+            type: 'datetime'
         },
         {
             name: 'creator',

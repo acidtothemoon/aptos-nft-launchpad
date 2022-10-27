@@ -22,15 +22,16 @@ const NFTDropPage = ({ collection, }: Props) => {
     const [amountLoading, setAmountLoading] = useState<boolean>(true)
     const [mintFee, setMintFee] = useState<number>(0)
     const [txHash, setTxHash] = useState<string>()
-    const [countEnd, setCountEnd] = useState<boolean>(false)
     const [availableToMintAmount, setAvailableToMintAmount] = useState<number>(0)
     const [availableMintChecking, setAvaiableMintChecking] = useState<boolean>(true)
     const [publicStartTime, setPublicStartTime] = useState<number>(new Date().valueOf())
-    const [presaleStartTime, setPresaleStartTime] = useState<number>(new Date().valueOf()) 
+    const [presaleStartTime, setPresaleStartTime] = useState<number>(new Date().valueOf())
     const [countDays, setCountDays] = useState<number>(0)
     const [countHours, setCountHours] = useState<number>(0)
     const [countMinutes, setCountMinutes] = useState<number>(0)
     const [countSeconds, setCountSeconds] = useState<number>(0)
+    const [presaleStage, setPresaleStage] = useState<boolean>(false)
+    const [publicStage, setPublicStage] = useState<boolean>(false)
 
     useEffect(() => {
         if (!window.martian) {
@@ -44,9 +45,9 @@ const NFTDropPage = ({ collection, }: Props) => {
         const fetchNFTDropData = async () => {
             setAmountLoading(true)
             setAvaiableMintChecking(true)
-            const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1");
+            const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1")
             // const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
-            const tokenClient = new TokenClient(client);
+            const tokenClient = new TokenClient(client)
 
             const resourceAccount = collection.resourceAccount
             const collectionName = collection.nftCollectionName
@@ -65,6 +66,7 @@ const NFTDropPage = ({ collection, }: Props) => {
             );
 
             setMintedAmount(minted_supply)
+
             if (collection.nftCollectionName == "Aptos Polar Bears") {
                 setTotalSupply(700)
             } else {
@@ -91,14 +93,11 @@ const NFTDropPage = ({ collection, }: Props) => {
                         key: collectionName,
                     }
                 );
-                // console.log(max_supply_per_user, spw_handle, mpu_handle);
-                // console.log("price", mint_fee_per_mille)
-                setMintFee(mint_fee_per_mille / 100000000);
-                // console.log("presale_mint_time", presale_mint_time);
-                // console.log("public_mint_time", public_mint_time);
-                setPresaleStartTime(presale_mint_time*1000);
-                setPublicStartTime(public_mint_time*1000);
-                
+
+                setMintFee(mint_fee_per_mille / 100000000)
+                setPresaleStartTime(presale_mint_time * 1000)
+                setPublicStartTime(public_mint_time * 1000)
+
                 const user_max_supply = await client.getTableItem(
                     spw_handle,
                     {
@@ -131,16 +130,13 @@ const NFTDropPage = ({ collection, }: Props) => {
 
     const connectWallet = async () => {
         if ("martian" in window) {
-            // console.log("connecting wallet")
             const response = await window.martian.connect();
             const address = response.address
-            // console.log(address);
             setAddress(address)
             const isConnected = await window.martian.isConnected()
             if (isConnected) {
                 setIsWalletConnected(true)
             }
-            // console.log("wallet connected");
             return;
         }
         window.open("https://www.martianwallet.xyz/", "_blank");
@@ -159,13 +155,17 @@ const NFTDropPage = ({ collection, }: Props) => {
             <Head>
                 <title>{collection.title} Mint Page</title>
             </Head>
-
             <Toaster position='bottom-center' />
 
             {/* Left */}
             <div className='lg:col-span-4 bg-gradient-to-r from-[#051818] to-[#0e3839] pr-5 pl-5'>
 
-                <Header isWalletConnected={isWalletConnected} disconnect={disconnect} connectWallet={connectWallet} address={address} />
+                <Header
+                    isWalletConnected={isWalletConnected}
+                    disconnect={disconnect}
+                    connectWallet={connectWallet}
+                    address={address}
+                />
 
                 <ProjectInfo collection={collection} />
 
@@ -175,23 +175,38 @@ const NFTDropPage = ({ collection, }: Props) => {
             <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-black'>
                 {/* Countdown */}
                 <div>
-                    {(!countEnd) ? (
-                        <div className='text-lg text-white flex justify-center text-center text-semibold'>
-                            Minting Starts At
-                        </div>
-                    ) : (
-                        <div className='text-lg text-white flex justify-center text-center text-semibold'>
-                            Minting Ends In
-                        </div>
-                    )}
+                    {
+                        (!presaleStage && !publicStage) ? (
+                            <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                                Presale Starts In
+                            </div>
+                        ) : null
+                    }
+                    {
+                        presaleStage ? (
+                            <div>
+                                <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                                    Presale Start!
+                                </div>
+                                <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                                    Public Starts In
+                                </div>
+                            </div>
+                        ) : null
+                    }
+                    {
+                        publicStage ? (
+                            <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                                Public Starts!
+                            </div>
+                        ) : null
+                    }
+
 
                     <div className='flex py-10 justify-center'>
                         <Countdown
-                            countEnd={countEnd}
-                            setCountEnd={setCountEnd}
                             presaleStartTime={presaleStartTime}
                             publicStartTime={publicStartTime}
-                            publicEndTimeString={collection?.mintEndTime}
                             countDays={countDays}
                             countHours={countHours}
                             countMinutes={countMinutes}
@@ -200,12 +215,28 @@ const NFTDropPage = ({ collection, }: Props) => {
                             setCountHours={setCountHours}
                             setCountMinutes={setCountMinutes}
                             setCountSeconds={setCountSeconds}
+                            setPresaleStage={setPresaleStage}
+                            setPublicStage={setPublicStage}
                         />
                     </div>
                 </div>
 
                 {/* RightContent */}
-                <MintInfo collection={collection} amountLoading={amountLoading} mintedAmount={mintedAmount} totalSupply={totalSupply} availableMintChecking={availableMintChecking} availableToMintAmount={availableToMintAmount} address={address} setTxHash={setTxHash} txHash={txHash} mintFee={mintFee} countDays={countDays} countHours={countHours} countMinutes={countMinutes} countSeconds={countSeconds} />
+                <MintInfo
+                    collection={collection}
+                    amountLoading={amountLoading}
+                    mintedAmount={mintedAmount}
+                    totalSupply={totalSupply}
+                    availableMintChecking={availableMintChecking}
+                    availableToMintAmount={availableToMintAmount}
+                    address={address} setTxHash={setTxHash}
+                    txHash={txHash}
+                    mintFee={mintFee}
+                    countDays={countDays}
+                    countHours={countHours}
+                    countMinutes={countMinutes}
+                    countSeconds={countSeconds}
+                />
             </div>
         </div>
     )
@@ -219,7 +250,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 title,
                 resourceAccount,
                 collection_configs,
-                mintEndTime,
                 socials,
                 description,
                 nftCollectionName,

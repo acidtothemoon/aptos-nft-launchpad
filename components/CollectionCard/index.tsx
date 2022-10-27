@@ -23,11 +23,10 @@ const CollectionCard = ({ collection }: Props) => {
                                 alt='' />
                         </div>
                     )}
-
                     <div className='p-5'>
                         <h2 className='text-xl md:text-3xl font-semibold text-white'>{collection.title}</h2>
                     </div>
-                    <p className='mt-2 text-sm font-extralight text-white'>{collection.description}</p>
+                    <p className='mt-2 text-sm font-extralight text-white text-center'>{collection.description}</p>
                 </div>
             </Link>
         </div >
