@@ -91,7 +91,7 @@ const NFTDropPage = ({ collection }: Props) => {
                     collection.collection_configs,
                     {
                         key_type: "0x1::string::String",
-                        value_type: "0x5ac985f1fe40c5121eb33699952ce8a79b1d1cb7438709dbd1da8e840a04fbee::candy_machine_v2::CollectionConfig",
+                        value_type: "0x4b8cec33043700c2e159b55d39dff908c28f21ebaf0d64b0539a465721021a3a::candy_machine_v2::CollectionConfig",
                         key: collectionName,
                     }
                 );

@@ -26,7 +26,9 @@ const CollectionCard = ({ collection }: Props) => {
                     <div className='p-5'>
                         <h2 className='text-xl md:text-3xl font-semibold text-white'>{collection.title}</h2>
                     </div>
-                    <p className='mt-2 text-sm font-extralight text-white text-center'>{collection.description}</p>
+                    {collection.title == "Aptos Polar Bears" ? (<p className='mt-2 text-sm font-extralight text-white text-center'>A collection of 700 polar bears that have evolved and turned into something vicious after enduring the harshest climate on the planet.</p>
+                    ) : (<p className='mt-2 text-sm font-extralight text-white text-center'>{collection.description}</p>
+                    )}
                 </div>
             </Link>
         </div >

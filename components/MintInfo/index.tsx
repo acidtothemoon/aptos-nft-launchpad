@@ -65,7 +65,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
         // Generate a transaction
         const payload = {
             type: "entry_function_payload",
-            function: "0x5ac985f1fe40c5121eb33699952ce8a79b1d1cb7438709dbd1da8e840a04fbee::candy_machine_v2::mint_tokens",
+            function: "0x4b8cec33043700c2e159b55d39dff908c28f21ebaf0d64b0539a465721021a3a::candy_machine_v2::mint_tokens",
             type_arguments: [],
             arguments: [
                 `${collection.creator.address}`,
@@ -109,7 +109,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
                     </div>
                 ) : (
                     <div>
-                        <div className='text-white py-3 font-semibold text-lg'>You can mint {availableToMintAmount} !</div>
+                        <div className='text-white py-3 font-semibold text-lg'>You can mint {(availableToMintAmount >= (totalSupply - mintedAmount)) ? (totalSupply - mintedAmount) : (availableToMintAmount)} !</div>
                         <div className='py-5 space-x-2 flex'>
                             <input
                                 type="number"

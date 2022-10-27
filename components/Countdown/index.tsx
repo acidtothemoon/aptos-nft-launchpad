@@ -24,11 +24,12 @@ const Countdown = ({ setPresaleStage, setPublicStage, presaleStartTime, publicSt
         // console.log(mintingStartTime.getTimezoneOffset())
 
         const interval = setInterval(() => {
-            const now = new Date().getTime()
+            const now = new Date().valueOf()
             const presaleStartsIn = presaleStartTime - now
             const publicStartsIn = publicStartTime - now
 
             if (presaleStartsIn > 0) {
+                // console.log(`PresaleStartsIn: ${presaleStartsIn}`)
                 const startDays = Math.floor(presaleStartsIn / 86400000)
                 const startHours = Math.floor((presaleStartsIn % 86400000) / 3600000)
                 const startMinutes = Math.floor((presaleStartsIn % 3600000) / 60000)
@@ -56,7 +57,7 @@ const Countdown = ({ setPresaleStage, setPublicStage, presaleStartTime, publicSt
 
     useEffect(() => {
         startTimer()
-    }, [])
+    }, [presaleStartTime, publicStartTime])
 
 
     return (
