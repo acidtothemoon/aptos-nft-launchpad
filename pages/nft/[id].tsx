@@ -65,10 +65,13 @@ const NFTDropPage = ({ collection }: Props) => {
             // ).catch(
             //     () => 0
             // );
-
-            setMintedAmount(minted_supply)
             if (collection.nftCollectionName == "Aptos Yetis") {
-                setTotalSupply(333)
+                setMintedAmount(235)
+            } else {
+                setMintedAmount(minted_supply)
+            }
+            if (collection.nftCollectionName == "Aptos Yetis") {
+                setTotalSupply(235)
             } else {
                 setTotalSupply(maximum)
             }
@@ -118,7 +121,7 @@ const NFTDropPage = ({ collection }: Props) => {
                         key: address,
                     }
                 )
-                    .then(wl_max => publicStage? max_supply_per_user : wl_max)
+                    .then(wl_max => publicStage ? max_supply_per_user : wl_max)
                     .catch(() => max_supply_per_user);
 
                 const user_minted_amount = await client.getTableItem(
