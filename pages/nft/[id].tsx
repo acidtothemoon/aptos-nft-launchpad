@@ -118,7 +118,7 @@ const NFTDropPage = ({ collection }: Props) => {
                         key: address,
                     }
                 )
-                    .then(wl_max => wl_max + max_supply_per_user)
+                    .then(wl_max => publicStage? max_supply_per_user : wl_max)
                     .catch(() => max_supply_per_user);
 
                 const user_minted_amount = await client.getTableItem(
@@ -139,7 +139,7 @@ const NFTDropPage = ({ collection }: Props) => {
         }
 
         fetchNFTDropData()
-    }, [address, txHash])
+    }, [address, txHash, publicStage])
 
     const connectWallet = async () => {
         if ("martian" in window) {
