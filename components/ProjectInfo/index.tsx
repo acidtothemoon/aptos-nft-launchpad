@@ -1,7 +1,6 @@
 import React from 'react'
 import { urlFor } from '../../sanity'
 import { Collection } from '../../typings'
-import { motion } from "framer-motion"
 import { SocialIcon } from "react-social-icons"
 
 
@@ -29,6 +28,19 @@ const ProjectInfo = ({ collection }: Props) => {
                         bgColor="transparent"
                     />
                 ))}
+                <div className=''></div>
+            </div>
+            <div className='space-x-2'>
+                {collection.topazUrl ? (<a target="_blank" href={`${collection.topazUrl}`}>
+                    <button className='text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold'>
+                        Topaz
+                    </button>
+                </a>) : null}
+                {collection.soulffl3Url ? (<a target="_blank" href={`${collection.soulffl3Url}`}>
+                    <button className='text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold'>
+                        Soulffl3
+                    </button>
+                </a>) : null}
             </div>
             <div className='text-center p-2 lg:p-3 space-y-2'>
                 <h1 className=' text-4xl font-bold text-white'>{collection?.title}</h1>

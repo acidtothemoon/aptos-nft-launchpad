@@ -30,8 +30,13 @@ export default {
             type: 'string',
         },
         {
-            name: 'collection_configs',
-            title: 'Collection Configs',
+            name: 'topazUrl',
+            title: 'Topaz URL',
+            type: 'string',
+        },
+        {
+            name: 'soulffl3Url',
+            title: 'Soulffl3 URL',
             type: 'string',
         },
         {

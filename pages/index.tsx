@@ -82,6 +82,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     address,
     description,
     mintStartTime,
+    soulffl3Url,
+    topazUrl,
     nftCollectionName,
     mainImage{
       asset

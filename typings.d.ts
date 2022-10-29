@@ -30,6 +30,8 @@ export interface Collection {
     price: number
     mintStartTime: string
     moduleId: string
+    topazUrl: string
+    soulffl3Url: string
     collection_configs: string
     socials: string[]
     maxMintPerWallet: number

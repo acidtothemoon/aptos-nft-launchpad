@@ -8,7 +8,7 @@ import Head from 'next/head'
 import Countdown from '../../components/Countdown/index';
 import Header from '../../components/Header'
 import ProjectInfo from '../../components/ProjectInfo'
-import MintInfo from '../../components/MintInfo'
+import TestMintInfo from '../../components/TestMintInfo'
 
 
 type Props = {
@@ -46,12 +46,12 @@ const NFTDropPage = ({ collection }: Props) => {
         const fetchNFTDropData = async () => {
             setAmountLoading(true)
             setAvaiableMintChecking(true)
-            const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1")
-            // const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
+            // const client = new AptosClient("https://fullnode.mainnet.aptoslabs.com/v1")
+            const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1")
             const tokenClient = new TokenClient(client)
 
-            const resourceAccount = collection.resourceAccount
-            const collectionName = collection.nftCollectionName
+            const resourceAccount = "0x2f626e6530a9b3f9c53de279fc70bc02454f2a174a873ca989d021f21cf1581d"
+            const collectionName = "Aptos Yetis"
             const data = await tokenClient.getCollectionData(resourceAccount, collectionName)
 
             const { description, maximum, name, supply, uri } = data
@@ -75,10 +75,10 @@ const NFTDropPage = ({ collection }: Props) => {
                     presale_mint_time,
                     public_mint_time,
                 } = await client.getTableItem(
-                    collection.collection_configs,
+                    "0xc29036f83d4e84e9c46cf09869cf43575b8e00731a35e3f3da1135d97a2c1be9",
                     {
                         key_type: "0x1::string::String",
-                        value_type: `${collection.moduleId}::CollectionConfig`,
+                        value_type: "0x481efbf0c3cbec627b5f5674287d4ae6ee770da5949dcfe698a8520108236a33::candy_machine_v2::CollectionConfig",
                         key: collectionName,
                     }
                 );
@@ -94,10 +94,10 @@ const NFTDropPage = ({ collection }: Props) => {
                     presale_mint_time,
                     public_mint_time,
                 } = await client.getTableItem(
-                    collection.collection_configs,
+                    "0xc29036f83d4e84e9c46cf09869cf43575b8e00731a35e3f3da1135d97a2c1be9",
                     {
                         key_type: "0x1::string::String",
-                        value_type: `${collection.moduleId}::CollectionConfig`,
+                        value_type: "0x481efbf0c3cbec627b5f5674287d4ae6ee770da5949dcfe698a8520108236a33::candy_machine_v2::CollectionConfig",
                         key: collectionName,
                     }
                 );
@@ -230,7 +230,7 @@ const NFTDropPage = ({ collection }: Props) => {
                 </div>
 
                 {/* RightContent */}
-                <MintInfo
+                <TestMintInfo
                     collection={collection}
                     amountLoading={amountLoading}
                     mintedAmount={mintedAmount}
