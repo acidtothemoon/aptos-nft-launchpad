@@ -77,6 +77,19 @@ const NFTDropPage = ({ collection }: Props) => {
             setAmountLoading(false)
 
             if (!address) {
+                const {
+                    presale_mint_time,
+                    public_mint_time,
+                } = await client.getTableItem(
+                    collection.collection_configs,
+                    {
+                        key_type: "0x1::string::String",
+                        value_type: `${collection.moduleId}::CollectionConfig`,
+                        key: collectionName,
+                    }
+                );
+                setPresaleStartTime(presale_mint_time * 1000)
+                setPublicStartTime(public_mint_time * 1000)
                 return
             } else {
                 const {
