@@ -54,17 +54,17 @@ const NFTDropPage = ({ collection }: Props) => {
             const collectionName = collection.nftCollectionName
             const data = await tokenClient.getCollectionData(resourceAccount, collectionName)
 
-            const { description, maximum, name, supply, uri } = data
+            const { description, maximum, name, supply: minted_supply, uri } = data
 
-            const minted_supply = await client.getAccountResource(
-                resourceAccount,
-                "0x3::token::Collections"
-            ).then(
-                //@ts-ignore
-                collectionsEvent => collectionsEvent.data.mint_token_events.counter
-            ).catch(
-                () => 0
-            );
+            // const minted_supply = await client.getAccountResource(
+            //     resourceAccount,
+            //     "0x3::token::Collections"
+            // ).then(
+            //     //@ts-ignore
+            //     collectionsEvent => collectionsEvent.data.mint_token_events.counter
+            // ).catch(
+            //     () => 0
+            // );
 
             setMintedAmount(minted_supply)
             setTotalSupply(maximum)
