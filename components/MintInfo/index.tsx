@@ -107,7 +107,9 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
                     <div className='py-2 text-white font-semibold text-lg sm:py-5'>
                         You already minted {userAlreadyMinted}
                     </div>
-                ) : (
+                ) : ((collection.nftCollectionName == "Aptos Yetis") ? (<div className='py-2 text-white font-semibold text-lg sm:py-5'>
+                    Minted Out!
+                </div>) :
                     <div>
                         <div className='text-white py-3 font-semibold text-lg'>You already minted {userAlreadyMinted}</div>
                         <div className='text-white py-3 font-semibold text-lg'>You can mint {(availableToMintAmount >= (totalSupply - mintedAmount)) ? (totalSupply - mintedAmount) : (availableToMintAmount)} !</div>
