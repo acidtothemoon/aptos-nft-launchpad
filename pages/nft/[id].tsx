@@ -118,7 +118,7 @@ const NFTDropPage = ({ collection }: Props) => {
                         key: address,
                     }
                 )
-                    .then(wl_max => wl_max)
+                    .then(wl_max => wl_max + max_supply_per_user)
                     .catch(() => max_supply_per_user);
 
                 const user_minted_amount = await client.getTableItem(
