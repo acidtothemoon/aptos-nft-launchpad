@@ -109,6 +109,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
                     </div>
                 ) : (
                     <div>
+                        <div className='text-white py-3 font-semibold text-lg'>You already minted {userAlreadyMinted}</div>
                         <div className='text-white py-3 font-semibold text-lg'>You can mint {(availableToMintAmount >= (totalSupply - mintedAmount)) ? (totalSupply - mintedAmount) : (availableToMintAmount)} !</div>
                         <div className='py-5 space-x-2 flex'>
                             <input

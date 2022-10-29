@@ -32,11 +32,9 @@ const ProjectInfo = ({ collection }: Props) => {
             </div>
             <div className='text-center p-2 lg:p-3 space-y-2'>
                 <h1 className=' text-4xl font-bold text-white'>{collection?.title}</h1>
-                {(collection.nftCollectionName == "Aptos Polar Bears") ? (<div>
-                    <h2 className='text-xl text-gray-300 text-semibold'>A collection of 700 polar bears that have evolved and turned into something vicious after enduring the harshest climate on the planet.</h2>
-                </div>) : (<div>
+                <div>
                     <h2 className='text-xl text-gray-300 text-semibold'>{collection?.description}</h2>
-                </div>)}
+                </div>
             </div>
         </div>
     )
