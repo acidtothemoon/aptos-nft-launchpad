@@ -18,21 +18,7 @@ const ProjectInfo = ({ collection }: Props) => {
                     className='w-44 rounded-xl object-cover lg:h-96 lg:w-72'
                     src={urlFor(collection?.previewImage).url()} />
             </div>
-            <motion.div
-                initial={{
-                    x: -500,
-                    opacity: 0,
-                    scale: 0.5,
-                }}
-                animate={{
-                    x: 0,
-                    opacity: 1,
-                    scale: 1,
-                }}
-                transition={{
-                    duration: 1.5,
-                }}
-                className="flex flex-row items-center py-3 lg:py-5"
+            <div className="flex flex-row items-center py-3 lg:py-5"
             >
                 {/** Social icon */}
                 {collection.socials?.map((social) => (
@@ -43,12 +29,11 @@ const ProjectInfo = ({ collection }: Props) => {
                         bgColor="transparent"
                     />
                 ))}
-            </motion.div>
+            </div>
             <div className='text-center p-2 lg:p-3 space-y-2'>
                 <h1 className=' text-4xl font-bold text-white'>{collection?.title}</h1>
                 {(collection.nftCollectionName == "Aptos Polar Bears") ? (<div>
                     <h2 className='text-xl text-gray-300 text-semibold'>A collection of 700 polar bears that have evolved and turned into something vicious after enduring the harshest climate on the planet.</h2>
-
                 </div>) : (<div>
                     <h2 className='text-xl text-gray-300 text-semibold'>{collection?.description}</h2>
                 </div>)}
