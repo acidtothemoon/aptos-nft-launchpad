@@ -40,7 +40,7 @@ const Header = ({ setConnectModalOn, isConnectedWithPetra, isConnectedWithPontem
                 >
                     <button onClick={() => ((isConnectedWithMartian || isConnectedWithPetra || isConnectedWithPontem) ? disconnect() : setConnectModalOn(true))}
                         className='rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
-                        {isConnectedWithMartian ? "Disconnect" : "Connect Wallet"}
+                        {(isConnectedWithMartian || isConnectedWithPetra || isConnectedWithPontem) ? "Disconnect" : "Connect Wallet"}
                     </button>
                 </motion.div>
                 {address ? (
