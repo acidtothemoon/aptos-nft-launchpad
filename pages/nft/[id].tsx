@@ -52,6 +52,11 @@ const NFTDropPage = ({ collection }: Props) => {
 
             const resourceAccount = collection.resourceAccount
             const collectionName = collection.nftCollectionName
+
+            if (!resourceAccount && !collectionName) {
+                setPresaleStartTime(new Date(collection.mintStartTime).valueOf())
+                return
+            }
             const data = await tokenClient.getCollectionData(resourceAccount, collectionName)
 
             const { description, maximum, name, supply: minted_supply, uri } = data
@@ -89,6 +94,7 @@ const NFTDropPage = ({ collection }: Props) => {
                         key: collectionName,
                     }
                 );
+
                 setPresaleStartTime(presale_mint_time * 1000)
                 setPublicStartTime(public_mint_time * 1000)
                 return
