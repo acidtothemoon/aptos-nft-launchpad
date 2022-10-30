@@ -115,7 +115,7 @@ const NFTDropPage = ({ collection }: Props) => {
                     }
                 );
 
-                setMintFee(mint_fee_per_mille / 100000000)
+                setMintFee((mint_fee_per_mille / 100000000) * 0.97)
                 setPresaleStartTime(presale_mint_time * 1000)
                 setPublicStartTime(public_mint_time * 1000)
 
