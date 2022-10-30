@@ -114,7 +114,7 @@ const MintInfo = ({ isConnectedWithPetra, isConnectedWithPontem, isConnectedWith
             const client = new AptosClient('https://mainnet.aptoslabs.com');
             const txnHash = await client.waitForTransactionWithResult(pendingTransaction.hash);
 
-            setTxHash(txnHash)
+            // setTxHash(txnHash)
         }
 
 
