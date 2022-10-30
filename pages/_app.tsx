@@ -7,26 +7,21 @@ import {
   WalletProvider,
   PontemWalletAdapter,
   SpikaWalletAdapter,
-  FletchWalletAdapter,
-  AptosSnapAdapter,
   BitkeepWalletAdapter,
-  TokenPocketWalletAdapter,
-  WalletAdapterNetwork,
+  BloctoWalletAdapter
 } from '@manahippo/aptos-wallet-adapter';
 import { useMemo } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const wallets = useMemo(
     () => [
-
       new MartianWalletAdapter(),
       new AptosWalletAdapter(),
       new FewchaWalletAdapter(),
       new PontemWalletAdapter(),
       new SpikaWalletAdapter(),
-      new FletchWalletAdapter(),
-      new AptosSnapAdapter(),
       new BitkeepWalletAdapter(),
+      new BloctoWalletAdapter()
     ],
     []
   );
