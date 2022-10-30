@@ -23,7 +23,7 @@ const Header = ({ setConnectModalOn, isConnectedWithPetra, isConnectedWithPontem
                     <h1 className=' text-2xl font-bold sm:w-400 text-white md:text-5xl' >
                         Acid Labs
                     </h1>
-                    <p className='flex text-md text-lg'>
+                    <p className='flex text-md text-lg font-semibold'>
                         Aptos NFT Launchpad
                     </p>
                 </div>
