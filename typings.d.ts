@@ -33,7 +33,7 @@ export interface Collection {
     mintStartTime: string
     moduleId: string
     topazUrl: string
-    soulffl3Url: string
+    souffl3Url: string
     collection_configs: string
     socials: string[]
     maxMintPerWallet: number

@@ -332,7 +332,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                 collection_configs,
                 mintStartTime,
                 topazUrl,
-                soulffl3Url,
+                souffl3Url,
                 moduleId,
                 socials,
                 description,

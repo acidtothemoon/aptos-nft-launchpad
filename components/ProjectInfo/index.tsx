@@ -36,7 +36,7 @@ const ProjectInfo = ({ collection }: Props) => {
                         Topaz
                     </button>
                 </a>) : null}
-                {collection.soulffl3Url ? (<a target="_blank" href={`${collection.soulffl3Url}`}>
+                {collection.souffl3Url ? (<a target="_blank" href={`${collection.souffl3Url}`}>
                     <button className='text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold'>
                         Soulffl3
                     </button>

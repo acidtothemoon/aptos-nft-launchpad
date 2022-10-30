@@ -40,8 +40,8 @@ export default {
             type: 'string',
         },
         {
-            name: 'soulffl3Url',
-            title: 'Soulffl3 URL',
+            name: 'souffl3Url',
+            title: 'Souffl3 URL',
             type: 'string',
         },
         {
