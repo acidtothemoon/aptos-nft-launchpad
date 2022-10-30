@@ -78,6 +78,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
         setTxHash(txnHash)
         // console.log(txnHash);
     }
+    const fixedMintFee = Number((mintFee * 0.97).toFixed(2))
 
     return (
         <div className='flex flex-2 flex-col items-center space-y-6 text-center lg:justify-center lg:space-y-0 py-2'>
@@ -126,7 +127,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
                                 }}>
                                 <button onClick={handleMint}
                                     className="text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold"
-                                >Mint {amountToMint ? amountToMint : 1} for {mintFee * amountToMint ? mintFee * amountToMint : mintFee} APT</button>
+                                >Mint {amountToMint ? amountToMint : 1} for {fixedMintFee * amountToMint ? fixedMintFee * amountToMint : fixedMintFee} APT</button>
                             </motion.div>
                         </div>
                     </div>
