@@ -15,6 +15,11 @@ export default {
             type: 'string',
         },
         {
+            name: 'collection_configs',
+            title: 'Collection Config',
+            type: 'string',
+        },
+        {
             name: 'moduleId',
             title: 'Module Id',
             type: 'string',

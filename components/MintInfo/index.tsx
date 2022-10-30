@@ -5,9 +5,6 @@ import { Collection } from '../../typings'
 import { useTypewriter } from "react-simple-typewriter"
 import toast from 'react-hot-toast'
 
-
-
-
 interface Props {
     collection: Collection
     amountLoading: boolean
