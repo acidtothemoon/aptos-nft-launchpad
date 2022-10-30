@@ -1,21 +1,22 @@
 import React from 'react'
 import Link from 'next/link';
 import { motion } from "framer-motion"
+import { useWallet } from '@manahippo/aptos-wallet-adapter';
 
 
 interface Props {
-    isConnectedWithMartian: boolean
-    isConnectedWithPontem: boolean
-    isConnectedWithPetra: boolean
-    address?: string | null
-    disconnect: Function
-    connectWalletWithMartian: Function
-    connectWalletWithPontem: Function
-    connectWalletWithPetra: Function
     setConnectModalOn: Function
 }
 
-const Header = ({ setConnectModalOn, isConnectedWithPetra, isConnectedWithPontem, isConnectedWithMartian, address, disconnect, connectWalletWithPontem, connectWalletWithPetra, connectWalletWithMartian }: Props) => {
+const Header = ({ setConnectModalOn }: Props) => {
+    const {
+        account,
+        disconnect,
+        connected,
+        wallet: currentWallet,
+    } = useWallet();
+
+
     return (
         <header className='flex items-center justify-between text-white pt-8 '>
             <Link href={'/'}>
@@ -38,14 +39,14 @@ const Header = ({ setConnectModalOn, isConnectedWithPetra, isConnectedWithPontem
                         borderRadius: "100%"
                     }}
                 >
-                    <button onClick={() => ((isConnectedWithMartian || isConnectedWithPetra || isConnectedWithPontem) ? disconnect() : setConnectModalOn(true))}
+                    <button onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
                         className='rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
-                        {(isConnectedWithMartian || isConnectedWithPetra || isConnectedWithPontem) ? "Disconnect" : "Connect Wallet"}
+                        {connected ? "Disconnect" : "Connect Wallet"}
                     </button>
                 </motion.div>
-                {address ? (
+                {connected ? (
                     <p className='text-right py-1 text-sm text-[#52dc82] font-semibold'>
-                        {address.substring(0, 5)}...{address.substring(address.length - 5, address.length)}
+                        {account?.address?.toString().substring(0, 5)}...{account?.address?.toString().substring(account.address?.toString().length - 5, account.address?.toString().length)}
                     </p>
                 ) : null}
             </div>

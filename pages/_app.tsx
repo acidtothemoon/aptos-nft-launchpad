@@ -1,7 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import {
-  HippoExtensionWalletAdapter,
   MartianWalletAdapter,
   AptosWalletAdapter,
   FewchaWalletAdapter,
@@ -19,8 +18,7 @@ import { useMemo } from 'react';
 function MyApp({ Component, pageProps }: AppProps) {
   const wallets = useMemo(
     () => [
-      // new HippoWalletAdapter(),
-      new HippoExtensionWalletAdapter(),
+
       new MartianWalletAdapter(),
       new AptosWalletAdapter(),
       new FewchaWalletAdapter(),
@@ -29,7 +27,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       new FletchWalletAdapter(),
       new AptosSnapAdapter(),
       new BitkeepWalletAdapter(),
-      new TokenPocketWalletAdapter(),
     ],
     []
   );
