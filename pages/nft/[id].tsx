@@ -166,10 +166,7 @@ const NFTDropPage = ({ collection }: Props) => {
                 />
                 {connectModalOn ? (
                     <ConnectModal
-                        disconnect={disconnect}
-                        address={address}
                         setConnectModalOn={setConnectModalOn}
-                        setAddress={setAddress}
                     />
                 ) : null}
 
@@ -236,7 +233,7 @@ const NFTDropPage = ({ collection }: Props) => {
                     totalSupply={totalSupply}
                     availableMintChecking={availableMintChecking}
                     availableToMintAmount={availableToMintAmount}
-                    address={address} setTxHash={setTxHash}
+                    setTxHash={setTxHash}
                     txHash={txHash}
                     mintFee={mintFee}
                     userAlreadyMinted={userAlreadyMinted}

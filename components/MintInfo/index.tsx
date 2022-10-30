@@ -15,14 +15,13 @@ interface Props {
     totalSupply: number
     availableMintChecking: boolean
     availableToMintAmount: number
-    address?: string | null
     setTxHash: Function
     txHash?: string | null
     mintFee: number
     userAlreadyMinted: number
 }
 
-const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, totalSupply, availableMintChecking, availableToMintAmount, address, setTxHash, txHash, mintFee }: Props) => {
+const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, totalSupply, availableMintChecking, availableToMintAmount, setTxHash, txHash, mintFee }: Props) => {
     const [amountToMint, setAmountToMint] = useState<number>(1)
     const [txLoading, setTxLoading] = useState({
         sign: false,
@@ -30,15 +29,9 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
         faucet: false
     });
     const {
-        autoConnect,
-        connect,
-        disconnect,
         account,
-        wallets,
         signAndSubmitTransaction,
-        connecting,
         connected,
-        disconnecting,
         wallet: currentWallet,
         signMessage,
         signTransaction
@@ -57,7 +50,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
     const handleMint = async () => {
         // console.log(address);
         // Auth
-        if (!address) {
+        if (!connected) {
             toast.error("Connect wallet first!")
             return
         }

@@ -17,11 +17,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     () => [
       new MartianWalletAdapter(),
       new AptosWalletAdapter(),
+      new BloctoWalletAdapter(),
       new FewchaWalletAdapter(),
       new PontemWalletAdapter(),
       new SpikaWalletAdapter(),
       new BitkeepWalletAdapter(),
-      new BloctoWalletAdapter()
     ],
     []
   );

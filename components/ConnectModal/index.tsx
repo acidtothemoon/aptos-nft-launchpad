@@ -6,18 +6,13 @@ import { SocketAddress } from 'net';
 
 
 interface Props {
-    address?: Address | null
-    disconnect: Function
     setConnectModalOn: Function
-    setAddress: Function
 }
 
-const index = ({ setAddress, setConnectModalOn, address }: Props) => {
+const index = ({ setConnectModalOn }: Props) => {
     const {
-        account,
         wallets,
         wallet: currentWallet,
-        connected,
         connect
     } = useWallet();
 
@@ -54,7 +49,7 @@ const index = ({ setAddress, setConnectModalOn, address }: Props) => {
                                     <span className='flex-1 ml-3 whitespace-nowrap'>
                                         {option.name}
                                     </span>
-                                    {option.name == ("Martian") || option.name == ("Petra") ? (
+                                    {option.name == ("Martian") || option.name == ("Petra") || option.name == ("Blocto") ? (
                                         <span className="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Popular</span>
                                     ) : null}
                                 </div>
