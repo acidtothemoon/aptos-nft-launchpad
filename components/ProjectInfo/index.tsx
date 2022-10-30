@@ -45,7 +45,7 @@ const ProjectInfo = ({ collection }: Props) => {
             <div className='text-center p-2 lg:p-3 space-y-2'>
                 <h1 className=' text-4xl font-bold text-white'>{collection?.title}</h1>
                 <div>
-                    <h2 className='text-xl text-gray-300 text-semibold'>{collection?.description}</h2>
+                    <h2 className='text-xl text-gray-300 font-semibold'>{collection?.description}</h2>
                 </div>
             </div>
         </div>

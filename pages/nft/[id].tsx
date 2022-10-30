@@ -195,10 +195,10 @@ const NFTDropPage = ({ collection }: Props) => {
             {/* Right */}
             <div className='flex flex-1 flex-col p-12 lg:col-span-6 bg-black'>
                 {/* Countdown */}
-                <div>
+                <div className='text-semibold'>
                     {
                         (!presaleStage && !publicStage) ? (
-                            <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                            <div className='text-lg text-white flex justify-center text-center font-semibold'>
                                 Presale Starts In
                             </div>
                         ) : null
@@ -206,10 +206,10 @@ const NFTDropPage = ({ collection }: Props) => {
                     {
                         presaleStage ? (
                             <div>
-                                <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                                <div className='text-lg text-white flex justify-center text-center font-semibold'>
                                     Presale Start!
                                 </div>
-                                <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                                <div className='text-lg text-white flex justify-center text-center font-semibold'>
                                     Public Starts In
                                 </div>
                             </div>
@@ -217,7 +217,7 @@ const NFTDropPage = ({ collection }: Props) => {
                     }
                     {
                         publicStage ? (
-                            <div className='text-lg text-white flex justify-center text-center text-semibold'>
+                            <div className='text-lg text-white flex justify-center text-center font-semibold'>
                                 Public Starts!
                             </div>
                         ) : null
