@@ -70,16 +70,9 @@ const NFTDropPage = ({ collection }: Props) => {
             // ).catch(
             //     () => 0
             // );
-            if (collection.nftCollectionName == "Aptos Yetis") {
-                setMintedAmount(minted_supply)
-            } else {
-                setMintedAmount(minted_supply)
-            }
-            if (collection.nftCollectionName == "Aptos Yetis") {
-                setTotalSupply(minted_supply)
-            } else {
-                setTotalSupply(maximum)
-            }
+            setMintedAmount(minted_supply)
+            setTotalSupply(maximum)
+
             setAmountLoading(false)
 
             if (!address) {
