@@ -3,6 +3,8 @@ export { };
 declare global {
     interface Window {
         martian: any;
+        pontem: any;
+        aptos: any;
     }
 }
 

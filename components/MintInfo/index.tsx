@@ -4,6 +4,7 @@ import { urlFor } from '../../sanity'
 import { Collection } from '../../typings'
 import { useTypewriter } from "react-simple-typewriter"
 import toast from 'react-hot-toast'
+import { AptosClient } from 'aptos';
 
 interface Props {
     collection: Collection
@@ -17,9 +18,12 @@ interface Props {
     txHash?: string | null
     mintFee: number
     userAlreadyMinted: number
+    isConnectedWithPetra: boolean
+    isConnectedWithPontem: boolean
+    isConnectedWithMartian: boolean
 }
 
-const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, totalSupply, availableMintChecking, availableToMintAmount, address, setTxHash, txHash, mintFee }: Props) => {
+const MintInfo = ({ isConnectedWithPetra, isConnectedWithPontem, isConnectedWithMartian, userAlreadyMinted, collection, amountLoading, mintedAmount, totalSupply, availableMintChecking, availableToMintAmount, address, setTxHash, txHash, mintFee }: Props) => {
     const [amountToMint, setAmountToMint] = useState<number>(1)
 
     const [text, count] = useTypewriter({
@@ -60,22 +64,60 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
 
 
         // Generate a transaction
-        const payload = {
-            type: "entry_function_payload",
-            function: `${collection.moduleId}::mint_tokens`,
-            type_arguments: [],
-            arguments: [
-                `${collection.creator.address}`,
-                `${collection.nftCollectionName}`,
-                amountToMint,
-            ]
-        };
-        // console.log(payload)
+        if (isConnectedWithMartian) {
+            const payload = {
+                type: "entry_function_payload",
+                function: `${collection.moduleId}::mint_tokens`,
+                type_arguments: [],
+                arguments: [
+                    `${collection.creator.address}`,
+                    `${collection.nftCollectionName}`,
+                    amountToMint,
+                ]
+            };
+            // console.log(payload)
 
-        const transaction = await window.martian.generateTransaction(address, payload);
-        const txnHash = await window.martian.signAndSubmitTransaction(transaction);
+            const transaction = await window.martian.generateTransaction(address, payload);
+            const txnHash = await window.martian.signAndSubmitTransaction(transaction);
+            setTxHash(txnHash)
+        }
+        if (isConnectedWithPontem) {
+            const payload = {
+                type: "entry_function_payload",
+                function: `${collection.moduleId}::mint_tokens`,
+                type_arguments: [],
+                arguments: [
+                    `${collection.creator.address}`,
+                    `${collection.nftCollectionName}`,
+                    amountToMint,
+                ]
+            };
+            // console.log(payload)
 
-        setTxHash(txnHash)
+            await window.pontem.signAndSubmit(payload)
+        }
+        if (isConnectedWithPetra) {
+            const payload = {
+                type: "entry_function_payload",
+                function: `${collection.moduleId}::mint_tokens`,
+                type_arguments: [],
+                arguments: [
+                    `${collection.creator.address}`,
+                    `${collection.nftCollectionName}`,
+                    amountToMint,
+                ]
+            };
+            // console.log(payload)
+            const pendingTransaction = await (window as any).aptos.signAndSubmitTransaction(payload);
+
+            // In most cases a dApp will want to wait for the transaction, in these cases you can use the typescript sdk
+            const client = new AptosClient('https://mainnet.aptoslabs.com');
+            const txnHash = await client.waitForTransactionWithResult(pendingTransaction.hash);
+
+            setTxHash(txnHash)
+        }
+
+
         // console.log(txnHash);
     }
     const fixedMintFee = Number((mintFee * 0.97).toFixed(2))

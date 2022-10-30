@@ -9,6 +9,7 @@ import Countdown from '../../components/Countdown/index';
 import Header from '../../components/Header'
 import ProjectInfo from '../../components/ProjectInfo'
 import MintInfo from '../../components/MintInfo'
+import ConnectModal from '../../components/ConnectModal'
 
 
 type Props = {
@@ -17,7 +18,9 @@ type Props = {
 
 const NFTDropPage = ({ collection }: Props) => {
     const [address, setAddress] = useState<string | null>(null)
-    const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false)
+    const [isConnectedWithMartian, setIsConnectedWithMartian] = useState<boolean>(false)
+    const [isConnectedWithPontem, setIsConnectedWithPontem] = useState<boolean>(false)
+    const [isConnectedWithPetra, setIsConnectedWithPetra] = useState<boolean>(false)
     const [mintedAmount, setMintedAmount] = useState<number>(0)
     const [totalSupply, setTotalSupply] = useState<number>(0)
     const [amountLoading, setAmountLoading] = useState<boolean>(true)
@@ -34,13 +37,17 @@ const NFTDropPage = ({ collection }: Props) => {
     const [presaleStage, setPresaleStage] = useState<boolean>(false)
     const [publicStage, setPublicStage] = useState<boolean>(false)
     const [userAlreadyMinted, setUserAlreadyMinted] = useState<number>(0)
+    const [connectModalOn, setConnectModalOn] = useState<boolean>(false)
 
-    useEffect(() => {
-        if (!window.martian) {
-            return
-        }
-        connectWallet()
-    }, [address])
+    // useEffect(() => {
+    //     if (!window.martian) {
+    //         return
+    //     }
+    //     if (window.pontem) {
+    //         console.log('Pontem Wallet is installed!');
+    //     }
+    //     connectWalletWithMartian()
+    // }, [address])
 
     useEffect(() => {
         const fetchNFTDropData = async () => {
@@ -143,22 +150,62 @@ const NFTDropPage = ({ collection }: Props) => {
         fetchNFTDropData()
     }, [address, txHash, publicStage])
 
-    const connectWallet = async () => {
+    const connectWalletWithMartian = async () => {
         if ("martian" in window) {
             const response = await window.martian.connect();
             const address = response.address
             setAddress(address)
             const isConnected = await window.martian.isConnected()
             if (isConnected) {
-                setIsWalletConnected(true)
+                setIsConnectedWithMartian(true)
+                setConnectModalOn(false)
             }
             return;
         }
         window.open("https://www.martianwallet.xyz/", "_blank");
     };
+    const connectWalletWithPontem = async () => {
+        if ("pontem" in window) {
+            const response = await window.pontem.connect();
+            const address = response.address
+            setAddress(address)
+            const isConnected = await window.pontem.isConnected()
+            if (isConnected) {
+                setIsConnectedWithPontem(true)
+                setConnectModalOn(false)
+            }
+            return;
+        }
+        window.open("https://pontem.network/", "_blank");
+    }
+
+    const connectWalletWithPetra = async () => {
+        if ("aptos" in window) {
+            const response = await window.aptos.connect();
+            const address = response.address
+            console.log(address)
+            setAddress(address)
+            const isConnected = await window.aptos.isConnected()
+            if (isConnected) {
+                setIsConnectedWithPetra(true)
+                setConnectModalOn(false)
+            }
+            return;
+        }
+        window.open("https://petra.app/", "_blank");
+    }
+
     const disconnect = async () => {
-        await window.martian.disconnect()
-        setIsWalletConnected(false)
+        if (isConnectedWithMartian) {
+            await window.martian.disconnect()
+            setIsConnectedWithMartian(false)
+        } else if (isConnectedWithPontem) {
+            await window.pontem.disconnect()
+            setIsConnectedWithPontem(false)
+        } else if (isConnectedWithPetra) {
+            await window.aptos.disconnect()
+            setIsConnectedWithPetra(false)
+        }
         setAddress(null)
     }
 
@@ -175,11 +222,30 @@ const NFTDropPage = ({ collection }: Props) => {
             <div className='lg:col-span-4 bg-gradient-to-r from-[#051818] to-[#0e3839] pr-5 pl-5'>
 
                 <Header
-                    isWalletConnected={isWalletConnected}
+                    isConnectedWithMartian={isConnectedWithMartian}
+                    isConnectedWithPontem={isConnectedWithPontem}
+                    isConnectedWithPetra={isConnectedWithPetra}
                     disconnect={disconnect}
-                    connectWallet={connectWallet}
+                    connectWalletWithMartian={connectWalletWithMartian}
+                    connectWalletWithPontem={connectWalletWithPontem}
+                    connectWalletWithPetra={connectWalletWithPetra}
                     address={address}
+                    setConnectModalOn={setConnectModalOn}
                 />
+                {connectModalOn ? (
+                    <ConnectModal
+                        isConnectedWithMartian={isConnectedWithMartian}
+                        isConnectedWithPontem={isConnectedWithPontem}
+                        isConnectedWithPetra={isConnectedWithPetra}
+                        disconnect={disconnect}
+                        connectWalletWithMartian={connectWalletWithMartian}
+                        connectWalletWithPontem={connectWalletWithPontem}
+                        connectWalletWithPetra={connectWalletWithPetra}
+                        address={address}
+                        setConnectModalOn={setConnectModalOn}
+                    />
+                ) : null}
+
 
                 <ProjectInfo collection={collection} />
 
@@ -247,6 +313,9 @@ const NFTDropPage = ({ collection }: Props) => {
                     txHash={txHash}
                     mintFee={mintFee}
                     userAlreadyMinted={userAlreadyMinted}
+                    isConnectedWithPetra={isConnectedWithPetra}
+                    isConnectedWithPontem={isConnectedWithPontem}
+                    isConnectedWithMartian={isConnectedWithMartian}
                 />
             </div>
         </div>

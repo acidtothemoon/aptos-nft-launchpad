@@ -4,13 +4,18 @@ import { motion } from "framer-motion"
 
 
 interface Props {
-    isWalletConnected: boolean
+    isConnectedWithMartian: boolean
+    isConnectedWithPontem: boolean
+    isConnectedWithPetra: boolean
     address?: string | null
     disconnect: Function
-    connectWallet: Function
+    connectWalletWithMartian: Function
+    connectWalletWithPontem: Function
+    connectWalletWithPetra: Function
+    setConnectModalOn: Function
 }
 
-const Header = ({ isWalletConnected, address, disconnect, connectWallet }: Props) => {
+const Header = ({ setConnectModalOn, isConnectedWithPetra, isConnectedWithPontem, isConnectedWithMartian, address, disconnect, connectWalletWithPontem, connectWalletWithPetra, connectWalletWithMartian }: Props) => {
     return (
         <header className='flex items-center justify-between text-white pt-8 '>
             <Link href={'/'}>
@@ -23,6 +28,7 @@ const Header = ({ isWalletConnected, address, disconnect, connectWallet }: Props
                     </p>
                 </div>
 
+
             </Link>
             <div className='flex flex-col items-center'>
                 <motion.div
@@ -32,17 +38,10 @@ const Header = ({ isWalletConnected, address, disconnect, connectWallet }: Props
                         borderRadius: "100%"
                     }}
                 >
-                    <button onClick={() => (isWalletConnected ? disconnect() : connectWallet())}
+                    <button onClick={() => ((isConnectedWithMartian || isConnectedWithPetra || isConnectedWithPontem) ? disconnect() : setConnectModalOn(true))}
                         className='rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
-                        {isWalletConnected ? "Disconnect" : "Connect"}
+                        {isConnectedWithMartian ? "Disconnect" : "Connect Wallet"}
                     </button>
-                    {/* {connected ? (
-                        <button
-                            onClick={connect(walletName)}>Connect</button>)
-                        : (<button
-                            onClick={disconnect(walletName)}>Disconnect</button>)
-                    } */}
-
                 </motion.div>
                 {address ? (
                     <p className='text-right py-1 text-sm text-[#52dc82] font-semibold'>
