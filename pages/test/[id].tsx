@@ -168,12 +168,12 @@ const NFTDropPage = ({ collection }: Props) => {
             {/* Left */}
             <div className='lg:col-span-4 bg-gradient-to-r from-[#051818] to-[#0e3839] pr-5 pl-5'>
 
-                <Header
+                {/* <Header
                     isWalletConnected={isWalletConnected}
                     disconnect={disconnect}
                     connectWallet={connectWallet}
                     address={address}
-                />
+                /> */}
 
                 <ProjectInfo collection={collection} />
 
