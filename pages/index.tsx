@@ -46,7 +46,7 @@ const Home = ({ collections }: Props) => {
         </main>
       </div>
       <div className='justify-center py-10 sm:py-20 text-center'>
-        <h3 className='text-white text-semibold px-8'>
+        <h3 className='text-white font-semibold px-8'>
           We do no provide doxxing service at the moment. Please DYOR and mint with caution
         </h3>
         <a target="_blank" href="https://twitter.com/acidmonkeys">

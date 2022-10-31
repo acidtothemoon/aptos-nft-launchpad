@@ -17,8 +17,8 @@ const CollectionCard = ({ collection }: Props) => {
                                 alt='' />
                         </div>
                     ) : (
-                        <div className='bg-gradient-to-br  p-1 md:p-1 rounded-xl'>
-                            <img className='h-60 w-60 sm:h-96 sm:w-96 rounded-2xl object-cover'
+                        <div className='bg-gradient-to-br p-1 md:p-1 rounded-xl'>
+                            <img className='h-100% w-100% rounded-2xl object-cover'
                                 src={urlFor(collection.mainImage).url()}
                                 alt='' />
                         </div>
