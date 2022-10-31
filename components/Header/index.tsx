@@ -33,36 +33,25 @@ const Header = ({ setConnectModalOn }: Props) => {
 
             </Link>
             <div className='flex flex-col items-center'>
-                <motion.div
+                {/* <motion.div
                     whileTap={{
                         scale: 0.8,
                         rotate: 0,
                         borderRadius: "100%"
                     }}
-                >
-                    {/* <button onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
+                > */}
+                {/* <button onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
                         className='rounded-full bg-green-900 hover:bg-green-800 px-2 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
                         {connected ? "Disconnect" : "Connect Wallet"}
                     </button> */}
+                <div className="button-container-1">
+                    <span className="mas">{connected ? "Disconnect" : "Connect"}</span>
+                    <button
+                        onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
+                        type="button" name="Hover">{connected ? "Disconnect" : "Connect"}</button>
+                </div>
 
-                    {/* <button 
-                        className='button-container-1'>
-                            <span className="mas">
-                            {connected ? "Disconnect" : "Connect Wallet"}
-                            </span>
-                        
-                    </button> */}
-                    <div className="button-container-1">
-                        <span className="mas">{connected ? "Disconnect" : "Connect"}</span>
-                        <button
-                            onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
-                            type="button" name="Hover">{connected ? "Disconnect" : "Connect"}</button>
-                    </div>
-                    {/* <div className="button-container-2">
-                        <span className="mas">MASK2</span>
-                        <button type="button" name="Hover">MASK2</button>
-                    </div> */}
-                </motion.div>
+                {/* </motion.div> */}
                 {connected ? (
                     <p className='text-right py-1 text-sm text-[#52dc82] font-semibold'>
                         {account?.address?.toString().substring(0, 5)}...{account?.address?.toString().substring(account.address?.toString().length - 5, account.address?.toString().length)}
