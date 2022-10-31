@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { motion } from "framer-motion"
 import { useWallet } from '@manahippo/aptos-wallet-adapter';
+import useOnClickOutside from '../../hooks/useOnClickOutside';
 
 interface Props {
     setConnectModalOn: Function
 }
 
 const index = ({ setConnectModalOn }: Props) => {
+    const clickOutsideRef = useRef<HTMLDivElement>(null);
+    const clickOutsidehandler = () => {
+        setConnectModalOn(false)
+    };
+    useOnClickOutside(clickOutsideRef, clickOutsidehandler);
+
+
     const {
         wallets,
         wallet: currentWallet,
@@ -41,9 +49,9 @@ const index = ({ setConnectModalOn }: Props) => {
                                         className='h-8 w-8 rounded-full'
                                         src={option.icon}
                                     />
-                                    <span className=''>
+                                    <div className='pt-1'>
                                         {option.name}
-                                    </span>
+                                    </div>
                                     {option.name == ("Martian") || option.name == ("Petra") || option.name == ("Blocto") ? (
                                         <span className="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Popular</span>
                                     ) : null}
@@ -62,7 +70,7 @@ const index = ({ setConnectModalOn }: Props) => {
         <div className="bg-opacity-80 backdrop-blur-sm overflow-y-auto overflow-x-hidden fixed flex items-center justify-center z-50 w-full md:inset-0 h-modal md:h-full">
             <div className="relative p-4 w-full max-w-md h-full md:h-auto">
 
-                <div className="relative bg-black rounded-lg shadow dark:bg-black-700">
+                <div ref={clickOutsideRef} className="relative bg-black rounded-lg shadow dark:bg-black-700">
 
                     <button onClick={() => setConnectModalOn(false)}
                         className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
