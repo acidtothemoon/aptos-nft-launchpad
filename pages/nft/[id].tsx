@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { sanityClient } from '../../sanity'
 import { Collection } from '../../typings'
@@ -10,7 +10,10 @@ import Header from '../../components/Header'
 import ProjectInfo from '../../components/ProjectInfo'
 import MintInfo from '../../components/MintInfo'
 import ConnectModal from '../../components/ConnectModal'
-import { useWallet, Address } from '@manahippo/aptos-wallet-adapter';
+import { useWallet } from '@manahippo/aptos-wallet-adapter';
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+
+
 
 
 type Props = {
@@ -36,6 +39,15 @@ const NFTDropPage = ({ collection }: Props) => {
     const [publicStage, setPublicStage] = useState<boolean>(false)
     const [userAlreadyMinted, setUserAlreadyMinted] = useState<number>(0)
     const [connectModalOn, setConnectModalOn] = useState<boolean>(false)
+
+    // Click outside to close modal ref
+    const clickOutsideRef = useRef<HTMLDivElement>(null);
+    const clickOutsidehandler = () => {
+        setConnectModalOn(false)
+    };
+    useOnClickOutside(clickOutsideRef, clickOutsidehandler);
+
+
     const {
         autoConnect,
         connect,
@@ -165,9 +177,11 @@ const NFTDropPage = ({ collection }: Props) => {
                     setConnectModalOn={setConnectModalOn}
                 />
                 {connectModalOn ? (
-                    <ConnectModal
-                        setConnectModalOn={setConnectModalOn}
-                    />
+                    <div ref={clickOutsideRef}>
+                        <ConnectModal
+                            setConnectModalOn={setConnectModalOn}
+                        />
+                    </div>
                 ) : null}
 
 

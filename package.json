@@ -18,7 +18,8 @@
     "react-dom": "18.1.0",
     "react-hot-toast": "^2.4.0",
     "react-simple-typewriter": "^4.0.5",
-    "react-social-icons": "^5.15.0"
+    "react-social-icons": "^5.15.0",
+    "sass": "^1.55.0"
   },
   "devDependencies": {
     "@types/node": "17.0.35",

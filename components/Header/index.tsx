@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { useWallet } from '@manahippo/aptos-wallet-adapter';
 
 
+
 interface Props {
     setConnectModalOn: Function
 }
@@ -39,10 +40,28 @@ const Header = ({ setConnectModalOn }: Props) => {
                         borderRadius: "100%"
                     }}
                 >
-                    <button onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
-                        className='rounded-full bg-green-900 hover:bg-green-800 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
+                    {/* <button onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
+                        className='rounded-full bg-green-900 hover:bg-green-800 px-2 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
                         {connected ? "Disconnect" : "Connect Wallet"}
-                    </button>
+                    </button> */}
+
+                    {/* <button 
+                        className='button-container-1'>
+                            <span className="mas">
+                            {connected ? "Disconnect" : "Connect Wallet"}
+                            </span>
+                        
+                    </button> */}
+                    <div className="button-container-1">
+                        <span className="mas">{connected ? "Disconnect" : "Connect"}</span>
+                        <button
+                            onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
+                            type="button" name="Hover">{connected ? "Disconnect" : "Connect"}</button>
+                    </div>
+                    {/* <div className="button-container-2">
+                        <span className="mas">MASK2</span>
+                        <button type="button" name="Hover">MASK2</button>
+                    </div> */}
                 </motion.div>
                 {connected ? (
                     <p className='text-right py-1 text-sm text-[#52dc82] font-semibold'>

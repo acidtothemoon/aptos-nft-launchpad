@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/Style.scss'
 import type { AppProps } from 'next/app'
 import {
   WalletAdapterNetwork,
