@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import {
+  WalletAdapterNetwork,
   MartianWalletAdapter,
   AptosWalletAdapter,
   FewchaWalletAdapter,
@@ -17,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     () => [
       new MartianWalletAdapter(),
       new AptosWalletAdapter(),
-      new BloctoWalletAdapter(),
+      new BloctoWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
       new FewchaWalletAdapter(),
       new PontemWalletAdapter(),
       new SpikaWalletAdapter(),
