@@ -22,7 +22,7 @@ const Home = ({ collections }: Props) => {
         <p className='font-extrabold '>
           Acid Labs
         </p>
-        <p>
+        <p className='text-xl md:text-2xl'>
           Aptos NFT Launchpad
         </p>
       </h1>
@@ -45,7 +45,7 @@ const Home = ({ collections }: Props) => {
           </div>
         </main>
       </div>
-      <div className='justify-center py-10 sm:py-20 text-center'>
+      <div className='justify-center py-20 text-center'>
         <h3 className='text-white font-semibold px-8'>
           We do no provide doxxing service at the moment. Please DYOR and mint with caution
         </h3>
