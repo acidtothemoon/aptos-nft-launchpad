@@ -29,6 +29,7 @@ const ProjectInfo = ({ collection }: Props) => {
                     />
                 ))}
             </div>
+
             <div className='space-x-2'>
                 {collection.topazUrl ? (<a target="_blank" href={`${collection.topazUrl}`}>
                     <button className='text-white bg-[#0e3839] hover:bg-black rounded-lg px-4 py-2 font-semibold'>

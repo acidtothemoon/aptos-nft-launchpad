@@ -45,10 +45,12 @@ const Header = ({ setConnectModalOn }: Props) => {
                         {connected ? "Disconnect" : "Connect Wallet"}
                     </button> */}
                 <div className="button-container-1">
-                    <span className="mas">{connected ? "Disconnect" : "Connect"}</span>
+                    <span className="mas">{connected ? "Disconnect" : "Connect Wallet"}</span>
                     <button
                         onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
-                        type="button" name="Hover">{connected ? "Disconnect" : "Connect"}</button>
+                        type="button" name="Hover">
+                        {connected ? "Disconnect" : "Connect Wallet"}
+                    </button>
                 </div>
 
                 {/* </motion.div> */}

@@ -39,13 +39,13 @@
 
 .button-container-1 {
     position: relative;
-    width: 100px;
-    height: 50px;
+    width: 130px;
+    height: 65px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0vh;
     overflow: hidden;
-    border: 1px solid;
+    // border: 1px solid;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     font-size: 20px;
@@ -122,16 +122,20 @@
 
 .mas {
     position: absolute;
-    color: #000;
+    color: black;
     text-align: center;
     width: 101%;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     position: absolute;
     font-size: 11px;
-    margin-top: 17px;
+    margin-top: 0px;
+    padding: 24px 0;
     overflow: hidden;
     font-weight: bold;
+    background-color: white;
+    width: 130px;
+    height: 65px;
 }
 
 @-webkit-keyframes ani {
