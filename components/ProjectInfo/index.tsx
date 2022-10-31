@@ -28,16 +28,15 @@ const ProjectInfo = ({ collection }: Props) => {
                         bgColor="transparent"
                     />
                 ))}
-                <div className=''></div>
             </div>
             <div className='space-x-2'>
                 {collection.topazUrl ? (<a target="_blank" href={`${collection.topazUrl}`}>
-                    <button className='text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold'>
+                    <button className='text-white bg-[#0e3839] hover:bg-black rounded-lg px-4 py-2 font-semibold'>
                         Topaz
                     </button>
                 </a>) : null}
                 {collection.souffl3Url ? (<a target="_blank" href={`${collection.souffl3Url}`}>
-                    <button className='text-white bg-[#0e3839] rounded-lg px-4 py-2 font-semibold'>
+                    <button className='text-white bg-[#0e3839] hover:bg-black rounded-lg px-4 py-2 font-semibold'>
                         Souffl3
                     </button>
                 </a>) : null}

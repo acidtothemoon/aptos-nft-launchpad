@@ -40,7 +40,7 @@ const Header = ({ setConnectModalOn }: Props) => {
                     }}
                 >
                     <button onClick={() => (connected ? disconnect() : setConnectModalOn(true))}
-                        className='rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
+                        className='rounded-full bg-green-900 hover:bg-green-800 py-3 text-xs font-bold text-white lg:px-5 lg:py-3 lg:text-base'>
                         {connected ? "Disconnect" : "Connect Wallet"}
                     </button>
                 </motion.div>
