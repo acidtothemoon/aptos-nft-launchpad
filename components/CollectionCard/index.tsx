@@ -8,7 +8,7 @@ type Props = { collection: Collection }
 const CollectionCard = ({ collection }: Props) => {
     return (
         <div className=''>
-            <Link href={`/nft/${collection.slug.current}`}>
+            <Link href={`/nft/${collection.title}`}>
                 <div className='flex flex-col items-center cursor-pointer transition-all duration-200 hover:scale-105'>
                     {(collection.title == "Aptos Acid Apes") ? (
                         <div className='bg-gradient-to-br from-[#f0f079] to-[#0de96f] p-1 md:p-1 rounded-xl'>

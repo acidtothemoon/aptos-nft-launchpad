@@ -91,9 +91,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     previewImage{
       asset
     },
-    slug{
-      current
-    },
     creator->{
       _id,
       name,

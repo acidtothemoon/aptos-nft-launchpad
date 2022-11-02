@@ -251,7 +251,7 @@ const NFTDropPage = ({ collection }: Props) => {
 export default NFTDropPage
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const query = `*[_type=="collection" && slug.current==$id][0]{
+    const query = `*[_type=="collection" && title==$id][0]{
                 _id,
                 title,
                 resourceAccount,
@@ -269,9 +269,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             previewImage{
                 asset
             },
-            slug{
-                current
-            },
+
             creator->{
                 _id,
                 name,
