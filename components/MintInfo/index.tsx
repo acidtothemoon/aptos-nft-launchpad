@@ -120,7 +120,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
                     <div>{mintedAmount}/{totalSupply}</div>
                 )}
             </h2>
-            {(mintedAmount == totalSupply) ? (
+            {((mintedAmount != 0) && (mintedAmount == totalSupply)) ? (
                 <div className='py-5 text-2xl font-bold text-white'>
                     Sold out!!
                 </div>
