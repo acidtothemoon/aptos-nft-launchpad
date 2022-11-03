@@ -18,9 +18,9 @@ import { useMemo } from 'react';
 function MyApp({ Component, pageProps }: AppProps) {
   const wallets = useMemo(
     () => [
+      new BloctoWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
       new MartianWalletAdapter(),
       new AptosWalletAdapter(),
-      new BloctoWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
       new RiseWalletAdapter(),
       new FewchaWalletAdapter(),
       new PontemWalletAdapter(),
