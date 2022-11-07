@@ -110,8 +110,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
             <h1 className='text-3xl font-bold lg:text-5xl lg:font-extrabold py-5 text-[#ecdcdc]'>
                 {text}
             </h1>
-            {/* <p className='pt-2 text-xl text-green-500'>13/21 Claimed</p> */}
-            {/* <h2 className=" text-sm uppercase text-white pb-2 tracking-[5px] md:tracking-[5px] py-5">
+            <h2 className=" text-sm uppercase text-white pb-2 tracking-[5px] md:tracking-[5px] py-5">
                 {amountLoading ? (
                     <div className='justify-center items-center'>
                         <h1 className='animate-pulse'>&nbsp;Loading supply count...</h1>
@@ -119,7 +118,7 @@ const MintInfo = ({ userAlreadyMinted, collection, amountLoading, mintedAmount, 
                 ) : (
                     <div>{mintedAmount}/{totalSupply}</div>
                 )}
-            </h2> */}
+            </h2>
             {((mintedAmount != 0) && (mintedAmount == totalSupply)) ? (
                 <div className='py-5 text-2xl font-bold text-white'>
                     Sold out!!
