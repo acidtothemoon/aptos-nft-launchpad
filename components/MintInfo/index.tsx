@@ -129,7 +129,7 @@ const MintInfo = ({
           </div>
         ) : (
           <div>
-            {mintedAmount}/3450
+            {mintedAmount}/{totalSupply}
           </div>
         )}
       </h2>
